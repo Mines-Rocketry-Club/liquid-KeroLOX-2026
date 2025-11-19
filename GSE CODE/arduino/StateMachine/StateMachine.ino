@@ -37,16 +37,23 @@ enum SystemState {
   STATE_LOAD,
   STATE_SEQUENCE_START,       // STARTS THE LAUNCH SEQUENCE
   STATE_SEQUENCE_PRECHECKS,
+  STATE_PROMPT_USER,
+  STATE_PERSONNEL_GONE,
   STATE_SEQUENCE_HOLD,        // HOLDING READY FOR FUEL PRESSURIZATION
   STATE_PRESSURIZE_FUEL,      // PRESSURIZES FUEL
+  STATE_PASSWORD,
   STATE_ARMED,
   STATE_FIRE,
   STATE_MISFIRE,
   STATE_VENT_PRECHECK,        // PREPARES TO VENT
   STATE_VENT_PRECHECK_FAILURE,
+  STATE_PROMPT_USER_VENT,
   STATE_CONFIRM_VENT,
   STATE_DEPRESSURIZE_FUEL,
-  STATE_VENT,
+  STATE_DUMP_LOX,
+  STATE_LOX_READOUT,
+  STATE_ROCKET_SAFE,
+  STATE_GSE_SAFE,
   STATE_PAD_SHUTDOWN,
   STATE_SAFE_UNLOADED         // ENDS HERE
 };
@@ -62,15 +69,18 @@ struct StateEntry {
 
 static const StateEntry STATE_TABLE[] = {
   { STATE_LEVEL_CHECK,           "LEVEL_CHECK" },
-  { STATE_PREFILL,               "SAFE_LOADED" },        // serial command name
+  { STATE_PREFILL,               "SAFE_PREFILL" },        // serial command name
   { STATE_ABORT,                 "ABORT" },
   { STATE_TEST_PULSE,            "TEST_PULSE" },
   { STATE_MANUAL,                "MANUAL" },
   { STATE_LOAD,                  "LOAD" },
-  { STATE_SEQUENCE_START,        "SEQUENCE_START" },
+  { STATE_SEQUENCE_START,        "LAUNCH_SEQUENCE_START" },
   { STATE_SEQUENCE_PRECHECKS,    "SEQUENCE_PRECHECKS" },
+  { STATE_PROMPT_USER,           "PROMPT_USER_CONTINUE" },
+  { STATE_PERSONNEL_GONE,        "PERSONNEL_SAFE" },
   { STATE_SEQUENCE_HOLD,         "SEQUENCE_HOLD" },
   { STATE_PRESSURIZE_FUEL,       "PRESSURIZE_FUEL" },
+  { STATE_PASSWORD,              "PASSWORD"},
   { STATE_ARMED,                 "ARMED" },
   { STATE_FIRE,                  "FIRE" },
   { STATE_MISFIRE,               "MISFIRE" },
@@ -78,8 +88,11 @@ static const StateEntry STATE_TABLE[] = {
   { STATE_VENT_PRECHECK_FAILURE, "VENT_PRECHECK_FAILURE" },
   { STATE_CONFIRM_VENT,          "CONFIRM_VENT" },
   { STATE_DEPRESSURIZE_FUEL,     "DEPRESSURIZE_FUEL" },
-  { STATE_VENT,                  "VENT" },
-  { STATE_PAD_SHUTDOWN,          "VENTING_COMPLETE" },
+  { STATE_DUMP_LOX,              "DUMP_LOX" },
+  { STATE_LOX_READOUT,           "LOX_READOUT"},
+  { STATE_ROCKET_SAFE,           "VENTING_COMPLETE" },
+  { STATE_GSE_SAFE,              "GSE_SAFE"},
+  { STATE_PAD_SHUTDOWN,          "PAD_SHUTDOWN"},
   { STATE_SAFE_UNLOADED,         "SAFE_UNLOADED" }
 };
 
@@ -170,9 +183,7 @@ static bool isTransitionAllowed(int fromInt, int toInt) {
                from == STATE_VENT_PRECHECK_FAILURE ||
                from == STATE_CONFIRM_VENT ||
                from == STATE_DEPRESSURIZE_FUEL ||
-               from == STATE_VENT ||
-               from == STATE_PAD_SHUTDOWN ||
-               from == STATE_SAFE_UNLOADED);
+               from == STATE_VENT ||);
 
     case STATE_TEST_PULSE:
       return (from == STATE_PREFILL ||
@@ -193,17 +204,29 @@ static bool isTransitionAllowed(int fromInt, int toInt) {
 
     case STATE_SEQUENCE_PRECHECKS:
       return (from == STATE_SEQUENCE_START || 
+              from == STATE_SEQUENCE_PRECHECKS ||
+              from == STATE_PROMPT_USER);
+
+    case STATE_PROMPT_USER:
+      return (from == STATE_SEQUENCE_PRECHECKS);
+
+    case STATE_PERSONNEL_GONE:
+      return (from == STATE_PROMPT_USER || 
               from == STATE_SEQUENCE_PRECHECKS);
 
     case STATE_SEQUENCE_HOLD:
-      return (from == STATE_SEQUENCE_PRECHECKS);
+      return (from == STATE_PERSONNEL_GONE);
 
     case STATE_PRESSURIZE_FUEL:
       return (from == STATE_SEQUENCE_HOLD ||
               from == STATE_PRESSURIZE_FUEL);
 
+    case STATE_PASSWORD:
+      return (from == STATE_PASSWORD ||
+              from == STATE_PRESSURIZE_FUEL);
+
     case STATE_ARMED:
-      return (from == STATE_PRESSURIZE_FUEL);
+      return (from == STATE_PASSWORD);
 
     case STATE_FIRE:
       return (from == STATE_ARMED);
@@ -213,7 +236,8 @@ static bool isTransitionAllowed(int fromInt, int toInt) {
 
     case STATE_VENT_PRECHECK:
       return (from == STATE_ABORT ||
-              from == STATE_VENT_PRECHECK_FAILURE);
+              from == STATE_VENT_PRECHECK_FAILURE ||
+              from == STATE_PROMPT_USER_VENT);
 
     case STATE_VENT_PRECHECK_FAILURE:
       return (from == STATE_VENT_PRECHECK);
@@ -227,13 +251,24 @@ static bool isTransitionAllowed(int fromInt, int toInt) {
       return (from == STATE_CONFIRM_VENT ||
               from == STATE_DEPRESSURIZE_FUEL);
 
-    case STATE_VENT:
+    case STATE_DUMP_LOX:
       return (from == STATE_DEPRESSURIZE_FUEL ||
-              from == STATE_VENT);
+              from == STATE_DUMP_LOX ||
+              from == STATE_DUMP_LOX_READOUT);
+
+    case STATE_DUMP_LOX_READOUT:
+      return (from == STATE_DUMP_LOX || 
+              from == STATE_DUMP_LOX_READOUT);
+
+    case STATE_ROCKET_SAFE:
+      return (from == STATE_DUMP_LOX_READOUT);
+
+    case STATE_GSE_SAFE:
+      return (from == STATE_ROCKET_SAFE ||
+              from == STATE_FIRE);
 
     case STATE_PAD_SHUTDOWN:
-      return (from == STATE_VENT ||
-              from == STATE_FIRE);
+      return (from == STATE_GSE_SAFE);
 
     case STATE_SAFE_UNLOADED:
       return (from == STATE_PAD_SHUTDOWN);
