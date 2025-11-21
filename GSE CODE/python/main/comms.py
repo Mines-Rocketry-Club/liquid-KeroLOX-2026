@@ -12,8 +12,7 @@
 import time
 import threading
 from typing import Optional, Callable
-import subprocess
-import platform
+import socket  # NEW: for lightweight connectivity check
 
 import serial
 from serial.tools import list_ports
@@ -63,11 +62,11 @@ class ArduinoComms:
         self.reader_thread: Optional[threading.Thread] = None
         self.conn_thread: Optional[threading.Thread] = None
 
-        # Ping timing
+        # Ping timing (serial)
         self.last_cmd_sent_time: float = 0.0
         self.last_ping_ms: Optional[float] = None
 
-        # Telemetry request interval (based on GET cadence)
+        # Telemetry request interval (GET cadence)
         self._last_get_event_time: Optional[float] = None
         self.telemetry_interval_ms: Optional[float] = None
 
@@ -76,6 +75,11 @@ class ArduinoComms:
 
         # Whether CSV config has been pushed for this connection
         self._config_sent: bool = False
+
+        # Network target (your laptop running http.server on 8000)
+        self._net_host: str = "192.168.88.254"
+        self._net_port: int = 8000
+        self._last_net_ok: Optional[bool] = None  # for edge-detect logging
 
         # Start connection manager
         self.conn_thread = threading.Thread(target=self._connection_loop, daemon=True)
@@ -120,13 +124,19 @@ class ArduinoComms:
             self._handle_serial_failure()
 
     def request_telemetry(self):
+        """
+        Request a telemetry snapshot from the Arduino with GET,
+        but ONLY if:
+          - serial is OK
+          - a short TCP connect to 192.168.88.254:8000 succeeds
+          - we are not already waiting for a previous snapshot (END)
+        """
         if not self._serial_ok():
             return
 
-        # Only send GET if we can successfully ping the target
-        if not self._can_ping_target():
-            # Optional: uncomment if you want visible logging when ping fails
-            # self.on_log("Ping to 192.168.88.254 failed; skipping GET.")
+        # Network gate: check connectivity to your laptop
+        if not self._check_pad_reachable():
+            # If pad is down, do NOT send GET
             return
 
         if self._waiting_for_snapshot:
@@ -157,6 +167,39 @@ class ArduinoComms:
                 pass
         self.ser = None
         self.on_log("Serial closed.")
+
+    # ------------------------------------------------------
+    # Network reachability check (inline, short timeout)
+    # ------------------------------------------------------
+    def _check_pad_reachable(self, timeout: float = 0.1) -> bool:
+        """
+        Try a short TCP connect to 192.168.88.254:8000.
+        Returns True if reachable, False otherwise.
+        Also logs only on transitions:
+          - down -> up: "Connection reestablished with pad host."
+          - up -> down: "(net down) Skipping GET; pad host unreachable."
+        """
+        ok = False
+        try:
+            with socket.create_connection(
+                (self._net_host, self._net_port), timeout=timeout
+            ):
+                ok = True
+        except OSError:
+            ok = False
+
+        # Edge-detect logging
+        if self._last_net_ok is None:
+            # first run, no message, just set baseline
+            self._last_net_ok = ok
+        else:
+            if ok and self._last_net_ok is False:
+                self.on_log("Connection reestablished with pad host.")
+            elif not ok and self._last_net_ok is True:
+                self.on_log("(net down) Skipping GET; pad host unreachable.")
+            self._last_net_ok = ok
+
+        return ok
 
     # ------------------------------------------------------
     # Connection management
@@ -259,7 +302,7 @@ class ArduinoComms:
                 break
 
     # ------------------------------------------------------
-    # Ping helpers (serial timing)
+    # Serial ping timing
     # ------------------------------------------------------
     def _start_ping(self):
         self.last_cmd_sent_time = time.time()
@@ -269,32 +312,6 @@ class ArduinoComms:
             dt_ms = (time.time() - self.last_cmd_sent_time) * 1000.0
             self.last_ping_ms = dt_ms
             self.last_cmd_sent_time = 0.0
-
-    # ------------------------------------------------------
-    # Network ping helper (192.168.88.254)
-    # ------------------------------------------------------
-    def _can_ping_target(self, host: str = "192.168.88.254", count: int = 1, timeout: float = 0.2) -> bool:
-        """
-        Returns True if we can successfully ping the given host, False otherwise.
-        Uses the system 'ping' command with a very small count and timeout.
-        """
-        system = platform.system().lower()
-        if system == "windows":
-            # -n count, -w timeout (ms)
-            cmd = ["ping", "-n", str(count), "-w", str(int(timeout * 1000)), host]
-        else:
-            # Unix / macOS / Linux: -c count, -W timeout (s)
-            cmd = ["ping", "-c", str(count), "-W", str(int(timeout)), host]
-
-        try:
-            result = subprocess.run(
-                cmd,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-            return result.returncode == 0
-        except Exception:
-            return False
 
     # ------------------------------------------------------
     # Parse inbound lines
