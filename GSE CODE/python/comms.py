@@ -12,6 +12,8 @@
 import time
 import threading
 from typing import Optional, Callable
+import subprocess
+import platform
 
 import serial
 from serial.tools import list_ports
@@ -119,6 +121,12 @@ class ArduinoComms:
 
     def request_telemetry(self):
         if not self._serial_ok():
+            return
+
+        # Only send GET if we can successfully ping the target
+        if not self._can_ping_target():
+            # Optional: uncomment if you want visible logging when ping fails
+            # self.on_log("Ping to 192.168.88.254 failed; skipping GET.")
             return
 
         if self._waiting_for_snapshot:
@@ -251,7 +259,7 @@ class ArduinoComms:
                 break
 
     # ------------------------------------------------------
-    # Ping helpers
+    # Ping helpers (serial timing)
     # ------------------------------------------------------
     def _start_ping(self):
         self.last_cmd_sent_time = time.time()
@@ -261,6 +269,32 @@ class ArduinoComms:
             dt_ms = (time.time() - self.last_cmd_sent_time) * 1000.0
             self.last_ping_ms = dt_ms
             self.last_cmd_sent_time = 0.0
+
+    # ------------------------------------------------------
+    # Network ping helper (192.168.88.254)
+    # ------------------------------------------------------
+    def _can_ping_target(self, host: str = "192.168.88.254", count: int = 1, timeout: float = 0.2) -> bool:
+        """
+        Returns True if we can successfully ping the given host, False otherwise.
+        Uses the system 'ping' command with a very small count and timeout.
+        """
+        system = platform.system().lower()
+        if system == "windows":
+            # -n count, -w timeout (ms)
+            cmd = ["ping", "-n", str(count), "-w", str(int(timeout * 1000)), host]
+        else:
+            # Unix / macOS / Linux: -c count, -W timeout (s)
+            cmd = ["ping", "-c", str(count), "-W", str(int(timeout)), host]
+
+        try:
+            result = subprocess.run(
+                cmd,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            return result.returncode == 0
+        except Exception:
+            return False
 
     # ------------------------------------------------------
     # Parse inbound lines
