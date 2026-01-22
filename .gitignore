@@ -3,3 +3,7 @@
 
 # MAC Finder Files:
 **/.DS_Store
+
+# Solidworks Simulation files
+**/.CWR
+*.CWR
