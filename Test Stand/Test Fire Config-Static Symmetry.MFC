@@ -1,9 +1,9 @@
 [StartTime]
-Test Fire Config-Static Symmetry.MFC=16m:3s
+Test Fire Config-Static Symmetry.MFC=25m:3s
 [SolverState]
 Test Fire Config-Static Symmetry.MFC=2
 [MainFrame]
-Test Fire Config-Static Symmetry.MFC=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMEDAAAAAHNBAAAAAELEAAAAAKKCAAAAA
+Test Fire Config-Static Symmetry.MFC=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPBKCAAAAAMKBAAAAAJAEAAAAAPHCAAAAA
 [ShowMin]
 Test Fire Config-Static Symmetry.MFC=No
 [SolverType]
