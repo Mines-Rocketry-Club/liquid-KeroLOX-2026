@@ -5,5 +5,8 @@
 **/.DS_Store
 
 # Solidworks Simulation files
-**/.CWR
-*.CWR
+**/*.CWR
+**/*.DF1
+**/*.DF2
+**/*.gsz
+**/*.MFC
