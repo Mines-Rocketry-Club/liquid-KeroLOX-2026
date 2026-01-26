@@ -1,18 +1,7 @@
-# comms.py
-# Handles serial communication with the Arduino:
-# - auto-detect USB serial port and reconnect on failure
-# - sends STATE, GET, and ANS commands
-# - pushes telemetryFile.csv at startup:
-#       CFGBEGIN
-#       <csv lines>
-#       CFGEND
-# - parses STATE, MSG, ASK and dynamic metrics "<name> <value>"
-# - tracks telemetry interval and a unified ping time
-
 import time
 import threading
 from typing import Optional, Callable
-import socket  # NEW: for lightweight connectivity check
+import socket
 
 import serial
 from serial.tools import list_ports
@@ -62,61 +51,49 @@ class ArduinoComms:
         self.reader_thread: Optional[threading.Thread] = None
         self.conn_thread: Optional[threading.Thread] = None
 
-        # Ping timing (serial)
         self.last_cmd_sent_time: float = 0.0
         self.last_ping_ms: Optional[float] = None
 
-        # Telemetry request interval (GET cadence)
         self._last_get_event_time: Optional[float] = None
         self.telemetry_interval_ms: Optional[float] = None
 
-        # Track if we're waiting for an END from the last snapshot
         self._waiting_for_snapshot: bool = False
-
-        # Whether CSV config has been pushed for this connection
         self._config_sent: bool = False
 
-        # Network target (your laptop running http.server on 8000)
         self._net_host: str = "192.168.88.254"
         self._net_port: int = 8000
-        self._last_net_ok: Optional[bool] = None  # for edge-detect logging
+        self._last_net_ok: Optional[bool] = None
 
-        # Start connection manager
         self.conn_thread = threading.Thread(target=self._connection_loop, daemon=True)
         self.conn_thread.start()
 
-    # ------------------------------------------------------
-    # Public commands
-    # ------------------------------------------------------
-    def request_state(self, state: str):
-        """
-        Send a state command to the Arduino (SAFE, ABORT, FIRE, ARM, FILL, etc).
-        Always uppercases before sending so Arduino sees canonical strings.
-        """
-        s = state.strip().upper()
-        if not s:
+    def request_state(self, text: str):
+        line = (text or "").strip()
+        if not line:
             return
 
         if not self._serial_ok():
-            self.on_log(f"(no serial) Would request state '{s}'")
+            self.on_log(f"(no serial) Would send: {line}")
             return
 
         try:
             self._start_ping()
-            self.ser.write((s + "\n").encode("utf-8"))
-            self.on_log(f"> REQUESTED STATE = {s}")
+            self.ser.write((line + "\n").encode("utf-8"))
+            self.on_log(f"> {line}")
         except Exception as e:
-            self.on_log(f"Error sending state: {e}")
+            self.on_log(f"Error sending line: {e}")
             self._handle_serial_failure()
 
     def send_answer(self, prompt_id: str, answer: str):
+        ans = (answer or "").strip()
+
         if not self._serial_ok():
-            self.on_log(f"(no serial) Would send answer {prompt_id}: {answer}")
+            self.on_log(f"(no serial) Would send answer: {ans}")
             return
 
         try:
             self._start_ping()
-            line = f"ANS {prompt_id} {answer}\n"
+            line = f"ANSWER {ans}\n"
             self.ser.write(line.encode("utf-8"))
             self.on_log(f"> {line.strip()}")
         except Exception as e:
@@ -124,23 +101,10 @@ class ArduinoComms:
             self._handle_serial_failure()
 
     def request_telemetry(self):
-        """
-        Request a telemetry snapshot from the Arduino with GET,
-        but ONLY if:
-          - serial is OK
-          - a short TCP connect to 192.168.88.254:8000 succeeds
-          - we are not already waiting for a previous snapshot (END)
-        """
         if not self._serial_ok():
             return
 
-        # Network gate: check connectivity to your laptop
-        if not self._check_pad_reachable():
-            # If pad is down, do NOT send GET
-            return
-
         if self._waiting_for_snapshot:
-            # still waiting on END from the previous snapshot
             return
 
         try:
@@ -168,29 +132,15 @@ class ArduinoComms:
         self.ser = None
         self.on_log("Serial closed.")
 
-    # ------------------------------------------------------
-    # Network reachability check (inline, short timeout)
-    # ------------------------------------------------------
     def _check_pad_reachable(self, timeout: float = 0.1) -> bool:
-        """
-        Try a short TCP connect to 192.168.88.254:8000.
-        Returns True if reachable, False otherwise.
-        Also logs only on transitions:
-          - down -> up: "Connection reestablished with pad host."
-          - up -> down: "(net down) Skipping GET; pad host unreachable."
-        """
         ok = False
         try:
-            with socket.create_connection(
-                (self._net_host, self._net_port), timeout=timeout
-            ):
+            with socket.create_connection((self._net_host, self._net_port), timeout=timeout):
                 ok = True
         except OSError:
             ok = False
 
-        # Edge-detect logging
         if self._last_net_ok is None:
-            # first run, no message, just set baseline
             self._last_net_ok = ok
         else:
             if ok and self._last_net_ok is False:
@@ -201,9 +151,6 @@ class ArduinoComms:
 
         return ok
 
-    # ------------------------------------------------------
-    # Connection management
-    # ------------------------------------------------------
     def _connection_loop(self):
         while not self.stop_flag:
             if not self._serial_ok():
@@ -220,17 +167,13 @@ class ArduinoComms:
                         timeout=0.05,
                         write_timeout=0.2,
                     )
-                    time.sleep(2)  # Arduino reset on open
+                    time.sleep(2)
                     self.on_log(f"Connected to Arduino on {port} @ {BAUD} baud.")
                     self._config_sent = False
 
-                    # Start reader
-                    self.reader_thread = threading.Thread(
-                        target=self._reader, daemon=True
-                    )
+                    self.reader_thread = threading.Thread(target=self._reader, daemon=True)
                     self.reader_thread.start()
 
-                    # Send telemetry CSV for this connection
                     self._send_csv_config()
 
                 except Exception as e:
@@ -252,9 +195,6 @@ class ArduinoComms:
         self._config_sent = False
         self.on_log("Serial connection lost. Will retry...")
 
-    # ------------------------------------------------------
-    # CSV configuration upload
-    # ------------------------------------------------------
     def _send_csv_config(self):
         if self._config_sent:
             return
@@ -264,26 +204,21 @@ class ArduinoComms:
         try:
             with open(self.csv_path, "r", encoding="utf-8") as f:
                 self.on_log(f"Uploading telemetry config from {self.csv_path}...")
-                # Config upload isn't part of ping timing
                 self.ser.write(b"CFGBEGIN\n")
                 for line in f:
                     line = line.rstrip("\r\n")
                     if not line:
                         continue
                     self.ser.write(line.encode("utf-8") + b"\n")
-                    time.sleep(0.005)  # small delay so Arduino's buffer keeps up
+                    time.sleep(0.005)
                 self.ser.write(b"CFGEND\n")
 
             self._config_sent = True
             self.on_log("Telemetry config upload complete.")
         except Exception as e:
             self.on_log(f"Error sending telemetry CSV: {e}")
-            # Mark as sent so we don't spam attempts every 2 seconds
             self._config_sent = True
 
-    # ------------------------------------------------------
-    # Reader thread
-    # ------------------------------------------------------
     def _reader(self):
         while not self.stop_flag and self._serial_ok():
             try:
@@ -301,9 +236,6 @@ class ArduinoComms:
                 self._handle_serial_failure()
                 break
 
-    # ------------------------------------------------------
-    # Serial ping timing
-    # ------------------------------------------------------
     def _start_ping(self):
         self.last_cmd_sent_time = time.time()
 
@@ -313,11 +245,7 @@ class ArduinoComms:
             self.last_ping_ms = dt_ms
             self.last_cmd_sent_time = 0.0
 
-    # ------------------------------------------------------
-    # Parse inbound lines
-    # ------------------------------------------------------
     def _parse(self, line: str):
-        # ANY line counts as a response for ping timing
         self._stop_ping()
 
         parts = line.split()
@@ -343,16 +271,14 @@ class ArduinoComms:
                 self.on_log(f"[Arduino] {msg}")
             return
 
-        if key == "ASK" and len(parts) > 2:
-            prompt_id = parts[1]
-            question = " ".join(parts[2:])
+        if key == "PROMPT" and len(parts) > 1:
+            question = " ".join(parts[1:])
             if self.on_prompt:
-                self.on_prompt(prompt_id, question)
+                self.on_prompt("__PROMPT__", question)
             else:
-                self.on_log(f"[Arduino ASK {prompt_id}] {question}")
+                self.on_log(f"[Arduino PROMPT] {question}")
             return
 
-        # Dynamic metric: "<Name> <value>"
         if len(parts) == 2:
             name = parts[0]
             try:
@@ -361,6 +287,3 @@ class ArduinoComms:
             except ValueError:
                 pass
             return
-
-        # Otherwise ignore or optionally log
-        # self.on_log(f"(unparsed) {line}")
