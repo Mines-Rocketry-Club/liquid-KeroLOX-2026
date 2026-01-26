@@ -1,15 +1,16 @@
 // Main.ino
+const char* g_password = "Groundstation";
 
-// ---------- Forward declarations for cross-tab functions ----------
 void processSerial();
-void updateTelemetry();
+void initStateMachine();
 void stateMachineLoop();
 
 void setup() {
   Serial.begin(115200);
+  initStateMachine();
 }
 
 void loop() {
-  processSerial();    // incoming commands & user answers
-  stateMachineLoop(); // hook for continuous per-state logic (currently empty)
+  processSerial();
+  stateMachineLoop();
 }

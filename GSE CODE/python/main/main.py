@@ -1,45 +1,41 @@
-# main.py
 import threading
 import time
-import socket
+import subprocess
 
 from gui import Dashboard
 from comms import ArduinoComms
 
 PAD_IP = "192.168.88.254"
-PAD_PORT = 8000
-CHECK_INTERVAL = 0.5   # seconds
+CHECK_INTERVAL = 0.5  # seconds
 
 
-def check_pad_reachable(host: str, port: int, timeout: float = 0.1) -> bool:
+def check_ip_exists(ip: str) -> bool:
     try:
-        with socket.create_connection((host, port), timeout=timeout):
-            return True
-    except OSError:
+        result = subprocess.run(
+            ["ping", "-c", "1", "-W", "1", ip],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return result.returncode == 0
+    except Exception:
         return False
 
 
 def start_network_thread(comms: ArduinoComms, gui: Dashboard):
-    """
-    Background thread:
-      - Updates comms.net_ok
-      - Only logs transitions
-    """
     def run():
-        last_state = None
+        last = None
         while True:
-            ok = check_pad_reachable(PAD_IP, PAD_PORT)
+            ok = check_ip_exists(PAD_IP)
             comms.net_ok = ok
 
-            if last_state is None:
-                last_state = ok
+            if last is None:
+                last = ok
             else:
-                if ok and not last_state:
-                    gui.log_from_thread("Connection reestablished with pad host.")
-                elif not ok and last_state:
-                    gui.log_from_thread("Pad host unreachable.")
-
-                last_state = ok
+                if ok and not last:
+                    gui.log_from_thread("Laptop detected (.254). Telemetry enabled.")
+                elif not ok and last:
+                    gui.log_from_thread("Laptop missing (.254). Telemetry paused.")
+                last = ok
 
             time.sleep(CHECK_INTERVAL)
 
@@ -56,13 +52,11 @@ def main():
         on_state=gui.apply_state_from_thread,
         on_metric=gui.apply_metric_from_thread,
         on_message=gui.show_message_from_thread,
-        on_prompt=lambda pid, q: gui.show_prompt_from_thread(pid, q),
+        on_prompt=gui.show_prompt_from_thread,
     )
 
-    # Start the background network monitor
     start_network_thread(comms, gui)
 
-    # Wire GUI → Comms
     gui.on_state_request = comms.request_state
     gui.on_prompt_answer = comms.send_answer
 

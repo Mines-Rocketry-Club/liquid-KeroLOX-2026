@@ -1,10 +1,3 @@
-# gui.py
-# Dynamic GUI driven by telemetryFile.csv
-# - loads measurement metadata: owner, units, limits, part numbers
-# - shows dynamic metrics from comms.py
-# - colors rows based on red/yellow thresholds
-# - allows sending states and answers back to Arduino
-
 import csv
 import time
 import tkinter as tk
@@ -21,18 +14,11 @@ class Dashboard(tk.Tk):
         self.geometry("700x540")
         self.configure(bg=BG_COLOR)
 
-        # -----------------------------
-        # SYSTEM STATE INITIALIZATION
-        # -----------------------------
-        # Match Arduino startup state
         self.state = "LEVEL_CHECK"
 
-        # Default color table (filled dynamically)
         self.state_colors = {self.state: DEFAULT_STATE_COLOR}
 
-        # Special color overrides
         self.special_state_colors = {
-            # RED STATES
             "ABORT": "#FF6F61",
             "PRESSURIZE_FUEL": "#FF6F61",
             "DEPRESSURIZE_FUEL": "#FF6F61",
@@ -43,27 +29,20 @@ class Dashboard(tk.Tk):
             "CONFIRM_VENT": "#FF6F61",
             "VENT": "#FF6F61",
             "VENTING_COMPLETE": "#FF6F61",
-
-            # GREEN STATE
             "SAFE_UNLOADED": "#98FB98",
         }
 
         self.telemetry_enabled = True
         self.last_control_cmd_time = 0.0
 
-        # dynamic metrics
         self.metrics = {}
-
-        # metadata from the CSV file
         self.meta = self._load_telemetry_csv(telemetry_csv)
 
-        # callbacks injected by main.py
         self.on_state_request = None
         self.on_prompt_answer = None
 
         self.pending_prompt_id = None
 
-        # GUI widgets
         self.state_label = None
         self.telemetry_freq_label = None
         self.ping_label = None
@@ -71,22 +50,13 @@ class Dashboard(tk.Tk):
         self.cmd = None
         self.log = None
 
-        # Build interface
         self._build_ui()
-
-        # Apply initial state
         self._apply_state(self.state)
 
         self._log("GUI ready. Using telemetryFile.csv definitions.")
-        self._log("Type a state or answer prompts.")
+        self._log("Type commands. Prompts will ask for answers.")
 
-    # ------------------------------------------------------------
-    # CSV loader
-    # ------------------------------------------------------------
     def _load_telemetry_csv(self, path: str):
-        """
-        Load metadata for metrics from telemetryFile.csv.
-        """
         meta = {}
         try:
             with open(path, newline="") as f:
@@ -117,9 +87,6 @@ class Dashboard(tk.Tk):
 
         return meta
 
-    # ------------------------------------------------------------
-    # Thread-safe adaptors
-    # ------------------------------------------------------------
     def log_from_thread(self, msg: str):
         self.after(0, lambda: self._log(msg))
 
@@ -135,20 +102,15 @@ class Dashboard(tk.Tk):
     def show_prompt_from_thread(self, pid: str, question: str):
         def _p():
             self.pending_prompt_id = pid
-            self._log(f"[Arduino QUESTION {pid}] {question}")
-            self._log("Type your answer and press Enter.")
+            self._log(f"[Arduino PROMPT] {question}")
         self.after(0, _p)
 
-    # ------------------------------------------------------------
-    # UI build
-    # ------------------------------------------------------------
     def _build_ui(self):
         style = ttk.Style(self)
         style.theme_use("clam")
         style.configure("TFrame", background=BG_COLOR)
         style.configure("TLabel", background=BG_COLOR, foreground="black")
 
-        # State bar
         state_bar = ttk.Frame(self)
         state_bar.pack(fill="x", padx=10, pady=(10, 6))
 
@@ -157,7 +119,7 @@ class Dashboard(tk.Tk):
         self.state_label = tk.Label(
             state_bar,
             text=self.state,
-            width=24,  # longer box as requested
+            width=24,
             relief="groove",
             bd=2,
             bg=DEFAULT_STATE_COLOR,
@@ -166,7 +128,6 @@ class Dashboard(tk.Tk):
         )
         self.state_label.pack(side="left", padx=10)
 
-        # Telemetry + ping
         tele_frame = ttk.Frame(self)
         tele_frame.pack(fill="x", padx=10, pady=(0, 6))
 
@@ -182,7 +143,6 @@ class Dashboard(tk.Tk):
 
         ttk.Separator(self, orient="horizontal").pack(fill="x", padx=10, pady=5)
 
-        # Big RED buttons (Abort / Fire)
         style.configure(
             "RedBig.TButton",
             font=("Arial", 16, "bold"),
@@ -204,17 +164,16 @@ class Dashboard(tk.Tk):
             btn_frame,
             text="ABORT",
             style="RedBig.TButton",
-            command=lambda: self._request_state("ABORT"),
+            command=lambda: self._send_raw("ABORT"),
         ).pack(side="left", expand=True, padx=20)
 
         ttk.Button(
             btn_frame,
             text="FIRE",
             style="RedBig.TButton",
-            command=lambda: self._request_state("FIRE"),
+            command=lambda: self._send_raw("ANSWER FIRE"),
         ).pack(side="right", expand=True, padx=20)
 
-        # Telemetry table
         self.tree = ttk.Treeview(
             self,
             columns=("Name", "Owner", "Value", "Unit"),
@@ -238,7 +197,6 @@ class Dashboard(tk.Tk):
 
         self.tree.pack(fill="both", expand=True, padx=10, pady=5)
 
-        # Command bar
         cmd_frame = ttk.Frame(self)
         cmd_frame.pack(fill="x", padx=10, pady=5)
 
@@ -250,27 +208,17 @@ class Dashboard(tk.Tk):
 
         ttk.Button(cmd_frame, text="Run", command=self.on_command).pack(side="left")
 
-        # Log area
         self.log = tk.Text(self, height=6, state="disabled",
                            bg="#C0C0C0", fg="black")
         self.log.pack(fill="both", padx=10, pady=5)
 
-    # ------------------------------------------------------------
-    # State / metrics
-    # ------------------------------------------------------------
-    def _request_state(self, new_state: str):
+    def _send_raw(self, text: str):
         self.last_control_cmd_time = time.time()
-        s = (new_state or "").strip().upper()
         if self.on_state_request:
-            self.on_state_request(s)
+            self.on_state_request(text)
 
     def _apply_state(self, new_state: str):
-        """
-        Update GUI label color + text.
-        """
         upper = (new_state or "").strip().upper()
-
-        # Pick color: special override OR default gray
         color = self.special_state_colors.get(upper, DEFAULT_STATE_COLOR)
 
         self.state_colors[upper] = color
@@ -322,16 +270,10 @@ class Dashboard(tk.Tk):
             val_str = "--" if val is None else f"{val:.2f}"
             tag = self._metric_tag(name, val)
 
-            self.tree.insert(
-                "",
-                "end",
-                values=(name, owner, val_str, unit),
-                tags=(tag,),
-            )
+            self.tree.insert("", "end",
+                             values=(name, owner, val_str, unit),
+                             tags=(tag,))
 
-    # ------------------------------------------------------------
-    # Command handling
-    # ------------------------------------------------------------
     def on_command(self, event=None):
         text = self.cmd.get().strip()
         self.cmd.delete(0, "end")
@@ -339,34 +281,23 @@ class Dashboard(tk.Tk):
         if not text:
             return
 
-        # Are we answering an ASK?
+        upper = text.upper().strip()
+
         if self.pending_prompt_id is not None:
+            if upper == "ABORT" or upper.startswith("ELEVATED "):
+                self._send_raw(text)
+                return
+
             pid = self.pending_prompt_id
             self.pending_prompt_id = None
             self.last_control_cmd_time = time.time()
 
             if self.on_prompt_answer:
                 self.on_prompt_answer(pid, text)
-
-            self._log(f"> ANS {pid} {text}")
             return
 
-        # ELEVATE path
-        parts = text.split()
-        if len(parts) == 2 and parts[0].lower() == "elevated":
-            forced = parts[1].upper()
-            self._log(f"> ELEVATED {forced}")
+        self._send_raw(text)
 
-            if self.on_state_request:
-                self.on_state_request(f"ELEVATED {forced}")
-            return
-
-        # Normal state request
-        self._request_state(text)
-
-    # ------------------------------------------------------------
-    # Telemetry loop / stats
-    # ------------------------------------------------------------
     def start_telemetry_loop(self, comms, interval_ms=500, guard_ms=300):
         def _poll():
             try:
@@ -400,11 +331,9 @@ class Dashboard(tk.Tk):
         else:
             self.ping_label.config(text=f"Ping: {ping:.0f} ms")
 
-    # ------------------------------------------------------------
-    # Logging
-    # ------------------------------------------------------------
     def _log(self, msg: str):
         self.log.configure(state="normal")
         self.log.insert("end", msg + "\n")
         self.log.see("end")
         self.log.configure(state="disabled")
+
