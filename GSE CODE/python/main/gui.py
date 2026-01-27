@@ -15,7 +15,6 @@ class Dashboard(tk.Tk):
         self.configure(bg=BG_COLOR)
 
         self.state = "LEVEL_CHECK"
-
         self.state_colors = {self.state: DEFAULT_STATE_COLOR}
 
         self.special_state_colors = {
@@ -35,12 +34,13 @@ class Dashboard(tk.Tk):
         self.telemetry_enabled = True
         self.last_control_cmd_time = 0.0
 
+        self.recording = False
+
         self.metrics = {}
         self.meta = self._load_telemetry_csv(telemetry_csv)
 
         self.on_state_request = None
         self.on_prompt_answer = None
-
         self.pending_prompt_id = None
 
         self.state_label = None
@@ -49,6 +49,7 @@ class Dashboard(tk.Tk):
         self.tree = None
         self.cmd = None
         self.log = None
+        self.record_button = None
 
         self._build_ui()
         self._apply_state(self.state)
@@ -157,15 +158,45 @@ class Dashboard(tk.Tk):
             background=[("active", "#E62A2A"), ("pressed", "#CC0000")],
         )
 
+        style.configure(
+            "Big.TButton",
+            font=("Arial", 16, "bold"),
+            padding=(18, 10),
+            borderwidth=3,
+            relief="raised",
+        )
+
+        style.configure(
+            "RecordOn.Big.TButton",
+            font=("Arial", 16, "bold"),
+            padding=(18, 10),
+            borderwidth=3,
+            relief="raised",
+            background="#98FB98",
+            foreground="black",
+        )
+        style.map(
+            "RecordOn.Big.TButton",
+            background=[("active", "#7CFF7C"), ("pressed", "#5FE65F")],
+        )
+
         btn_frame = ttk.Frame(self)
         btn_frame.pack(fill="x", padx=10, pady=3)
+
+        self.record_button = ttk.Button(
+            btn_frame,
+            text="Not Recording",
+            style="Big.TButton",
+            command=self.toggle_recording,
+        )
+        self.record_button.pack(side="left", expand=True, padx=10)
 
         ttk.Button(
             btn_frame,
             text="ABORT",
             style="RedBig.TButton",
             command=lambda: self._send_raw("ABORT"),
-        ).pack(side="left", expand=True, padx=20)
+        ).pack(side="left", expand=True, padx=10)
 
         ttk.Button(
             btn_frame,
@@ -208,9 +239,20 @@ class Dashboard(tk.Tk):
 
         ttk.Button(cmd_frame, text="Run", command=self.on_command).pack(side="left")
 
-        self.log = tk.Text(self, height=6, state="disabled",
-                           bg="#C0C0C0", fg="black")
+        self.log = tk.Text(
+            self, height=6, state="disabled", bg="#C0C0C0", fg="black"
+        )
         self.log.pack(fill="both", padx=10, pady=5)
+
+    def toggle_recording(self):
+        self.recording = not self.recording
+
+        self.record_button.configure(
+            text="Recording" if self.recording else "Not Recording",
+            style="RecordOn.Big.TButton" if self.recording else "Big.TButton",
+        )
+
+        self._log(f"Recording {'enabled' if self.recording else 'disabled'}")
 
     def _send_raw(self, text: str):
         self.last_control_cmd_time = time.time()
@@ -250,7 +292,6 @@ class Dashboard(tk.Tk):
             return "red"
         if hr is not None and v > hr:
             return "red"
-
         if ly is not None and v < ly:
             return "yellow"
         if hy is not None and v > hy:
@@ -270,9 +311,12 @@ class Dashboard(tk.Tk):
             val_str = "--" if val is None else f"{val:.2f}"
             tag = self._metric_tag(name, val)
 
-            self.tree.insert("", "end",
-                             values=(name, owner, val_str, unit),
-                             tags=(tag,))
+            self.tree.insert(
+                "",
+                "end",
+                values=(name, owner, val_str, unit),
+                tags=(tag,),
+            )
 
     def on_command(self, event=None):
         text = self.cmd.get().strip()
@@ -336,4 +380,3 @@ class Dashboard(tk.Tk):
         self.log.insert("end", msg + "\n")
         self.log.see("end")
         self.log.configure(state="disabled")
-
