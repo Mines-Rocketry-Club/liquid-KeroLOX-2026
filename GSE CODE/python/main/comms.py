@@ -1,3 +1,4 @@
+# comms.py
 import time
 import threading
 from typing import Optional, Callable
@@ -36,6 +37,7 @@ class ArduinoComms:
         on_metric: Callable[[str, float], None],
         on_message: Optional[Callable[[str], None]] = None,
         on_prompt: Optional[Callable[[str, str], None]] = None,
+        on_snapshot: Optional[Callable[[], None]] = None,
         csv_path: str = "telemetryFile.csv",
     ):
         self.on_log = on_log
@@ -43,6 +45,7 @@ class ArduinoComms:
         self.on_metric = on_metric
         self.on_message = on_message
         self.on_prompt = on_prompt
+        self.on_snapshot = on_snapshot
 
         self.csv_path = csv_path
 
@@ -63,6 +66,8 @@ class ArduinoComms:
         self._net_host: str = "192.168.88.254"
         self._net_port: int = 8000
         self._last_net_ok: Optional[bool] = None
+
+        self.net_ok: bool = True
 
         self.conn_thread = threading.Thread(target=self._connection_loop, daemon=True)
         self.conn_thread.start()
@@ -102,6 +107,9 @@ class ArduinoComms:
 
     def request_telemetry(self):
         if not self._serial_ok():
+            return
+
+        if not getattr(self, "net_ok", True):
             return
 
         if self._waiting_for_snapshot:
@@ -256,6 +264,8 @@ class ArduinoComms:
 
         if key == "END":
             self._waiting_for_snapshot = False
+            if self.on_snapshot:
+                self.on_snapshot()
             return
 
         if key == "STATE" and len(parts) > 1:
