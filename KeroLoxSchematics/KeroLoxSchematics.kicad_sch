@@ -10378,7 +10378,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "GN2 Pressurizing Valve"
+		(property "Value" "Kero Pressurizing Valve"
 			(at 508 152.3999 0)
 			(effects
 				(font
