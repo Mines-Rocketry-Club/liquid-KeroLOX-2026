@@ -5349,6 +5349,16 @@
 		)
 		(uuid "c20925cb-602d-434c-be39-93eb422c7c82")
 	)
+	(text "THRUST FOR TEST CONFIG ONLY"
+		(exclude_from_sim no)
+		(at 240.284 191.77 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "dcfd8ff1-a722-47df-af50-792f27c5fc11")
+	)
 	(text "1:\n"
 		(exclude_from_sim no)
 		(at 408.178 401.066 0)
