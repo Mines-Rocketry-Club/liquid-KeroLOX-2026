@@ -5169,7 +5169,7 @@
 	)
 	(rectangle
 		(start 488.95 170.18)
-		(end 528.32 214.63)
+		(end 546.1 214.63)
 		(stroke
 			(width 0)
 			(type default)
@@ -5237,7 +5237,7 @@
 	)
 	(text "Ground System Electronics (GSE)"
 		(exclude_from_sim no)
-		(at 174.752 244.856 0)
+		(at 145.796 244.094 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5307,7 +5307,7 @@
 	)
 	(text "Ignitor Control Unit (ICU)"
 		(exclude_from_sim no)
-		(at 511.048 216.916 0)
+		(at 517.144 216.916 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5326,21 +5326,15 @@
 		(uuid "f9e0ec65-1d9a-400d-b570-c6346063091a")
 	)
 	(junction
-		(at 438.15 262.89)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "03644af5-8a42-4663-bbe8-a22d863ad0b7")
-	)
-	(junction
 		(at 158.75 118.11)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 0 0 0 1)
 		(uuid "056474c5-3eaa-435d-962f-17c36c7475f1")
 	)
 	(junction
 		(at 176.53 214.63)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "0a42d331-fa2f-4d40-8102-d34d5cea0508")
 	)
 	(junction
@@ -5368,12 +5362,6 @@
 		(uuid "1ff583f3-82e5-4f5b-82c4-31cd55dd88d1")
 	)
 	(junction
-		(at 438.15 250.19)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "20c5c2ad-39ff-4294-aa52-95dc1f85b223")
-	)
-	(junction
 		(at 327.66 162.56)
 		(diameter 0)
 		(color 0 0 0 1)
@@ -5388,7 +5376,7 @@
 	(junction
 		(at 458.47 160.02)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 153 0 1)
 		(uuid "261e1b26-a01c-4fca-88a6-e97508e08e15")
 	)
 	(junction
@@ -5412,7 +5400,7 @@
 	(junction
 		(at 416.56 137.16)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 153 0 1)
 		(uuid "38cc16c4-e839-4179-aeab-a4a269faa544")
 	)
 	(junction
@@ -5424,13 +5412,13 @@
 	(junction
 		(at 458.47 153.67)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 153 0 1)
 		(uuid "4cd57eef-5717-4f9e-821b-efcdc576a18b")
 	)
 	(junction
 		(at 176.53 172.72)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "52207363-d3ab-4d9c-8007-414f0e72f1ad")
 	)
 	(junction
@@ -5448,7 +5436,7 @@
 	(junction
 		(at 353.06 133.35)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 153 0 1)
 		(uuid "55b9dbff-387d-4425-8b08-0d9cc6c41a9d")
 	)
 	(junction
@@ -5460,13 +5448,13 @@
 	(junction
 		(at 520.7 203.2)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "6461b25d-f84d-4b66-a490-5837904745b1")
 	)
 	(junction
 		(at 316.23 134.62)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 153 0 1)
 		(uuid "6519c9dd-b6f0-48e1-9811-a0c4f082a741")
 	)
 	(junction
@@ -5474,12 +5462,6 @@
 		(diameter 0)
 		(color 255 153 0 1)
 		(uuid "6d6f0204-eb17-4c56-a09b-9565992e4004")
-	)
-	(junction
-		(at 438.15 257.81)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "6f40a2a7-5925-4f88-bfc8-376cd9899d16")
 	)
 	(junction
 		(at 478.79 146.05)
@@ -5506,12 +5488,6 @@
 		(uuid "7fd8ca7c-f708-484b-ba21-9cb1a6168146")
 	)
 	(junction
-		(at 438.15 260.35)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "813f83dd-726b-489d-94fb-753484b54cfa")
-	)
-	(junction
 		(at 336.55 247.65)
 		(diameter 0)
 		(color 255 153 0 1)
@@ -5532,7 +5508,7 @@
 	(junction
 		(at 520.7 181.61)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "8b05ac55-6aa2-423a-9866-ebd9d0973539")
 	)
 	(junction
@@ -5550,7 +5526,7 @@
 	(junction
 		(at 176.53 125.73)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "a890d60e-1a8d-4b83-ae1c-b320dbcb938f")
 	)
 	(junction
@@ -5568,7 +5544,7 @@
 	(junction
 		(at 180.34 172.72)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "bbb02b2f-a70f-4e5a-9ef1-e61654898d08")
 	)
 	(junction
@@ -5598,7 +5574,7 @@
 	(junction
 		(at 173.99 157.48)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 0 0 0 1)
 		(uuid "c426f2d6-f179-4838-9c74-ad4ae9138de9")
 	)
 	(junction
@@ -5676,25 +5652,19 @@
 	(junction
 		(at 173.99 182.88)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 0 0 0 1)
 		(uuid "e5b9ae46-665f-4539-a35d-8ceb7a666545")
-	)
-	(junction
-		(at 438.15 255.27)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e8a2542f-d687-43cc-a299-3e81f2a8fcc0")
 	)
 	(junction
 		(at 127 118.11)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 0 0 0 1)
 		(uuid "ebb6a69b-e238-4930-80ad-08d9c2f5dc9d")
 	)
 	(junction
 		(at 176.53 109.22)
 		(diameter 0)
-		(color 0 0 0 0)
+		(color 255 0 0 1)
 		(uuid "f5368220-a09b-4bc6-8baa-2f30f38a744a")
 	)
 	(wire
@@ -5724,6 +5694,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "02b4a39a-6a31-4513-87d5-69ed1e254259")
 	)
@@ -5792,17 +5763,6 @@
 	)
 	(wire
 		(pts
-			(xy 445.77 250.19) (xy 438.15 250.19)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 128 77 0 1)
-		)
-		(uuid "08a538d4-5e9a-47a6-9939-8627a56837bb")
-	)
-	(wire
-		(pts
 			(xy 184.15 151.13) (xy 212.09 151.13)
 		)
 		(stroke
@@ -5818,6 +5778,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "0959a89b-dc61-496b-849a-e4c8e435df89")
 	)
@@ -5957,6 +5918,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "1819fb78-d2e8-4648-8bf2-f2683dde82c7")
 	)
@@ -6096,6 +6058,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "1f8ec007-4095-4ab9-a12b-fedb34a3a285")
 	)
@@ -6106,6 +6069,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "205ca3ef-5c07-49b0-b43e-c058da4380c2")
 	)
@@ -6234,6 +6198,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "2b7671eb-81ae-4195-aa17-a9173208d8c1")
 	)
@@ -6276,6 +6241,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "2cf679c6-b428-4588-a30b-05846c0d27f0")
 	)
@@ -6335,11 +6301,12 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 181.61) (xy 532.13 181.61)
+			(xy 520.7 181.61) (xy 521.97 181.61)
 		)
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "348594c7-22cb-4b61-bb5f-40e2201d197b")
 	)
@@ -6537,6 +6504,17 @@
 	)
 	(wire
 		(pts
+			(xy 521.97 203.2) (xy 520.7 203.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 255 0 0 1)
+		)
+		(uuid "4548a6b6-a72c-446e-89c5-9ee3e5f21d48")
+	)
+	(wire
+		(pts
 			(xy 416.56 137.16) (xy 416.56 162.56)
 		)
 		(stroke
@@ -6694,6 +6672,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "4e09e632-9ecb-41b5-b09a-11b02d3b6b34")
 	)
@@ -6812,13 +6791,13 @@
 		(stroke
 			(width 0)
 			(type default)
-			(color 0 0 0 1)
+			(color 255 0 0 1)
 		)
 		(uuid "5400cd23-ddf0-486c-894a-0f0fe0df8821")
 	)
 	(polyline
 		(pts
-			(xy 488.95 191.77) (xy 528.32 191.77)
+			(xy 488.95 191.77) (xy 546.1 191.77)
 		)
 		(stroke
 			(width 0)
@@ -6940,6 +6919,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "5c608f50-2f37-4191-b610-5289702d8742")
 	)
@@ -7280,17 +7260,6 @@
 	)
 	(wire
 		(pts
-			(xy 445.77 257.81) (xy 438.15 257.81)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 128 77 0 1)
-		)
-		(uuid "80c4fefc-87d1-4ace-9d43-e6832ec477d2")
-	)
-	(wire
-		(pts
 			(xy 212.09 151.13) (xy 212.09 130.81)
 		)
 		(stroke
@@ -7317,6 +7286,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "81f5b4dd-b19c-4893-9ed4-28d4e444264d")
 	)
@@ -7398,16 +7368,6 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 203.2) (xy 530.86 203.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "84c6873c-dc0a-41e3-9188-f9d8c7ba7b84")
-	)
-	(wire
-		(pts
 			(xy 373.38 267.97) (xy 383.54 267.97)
 		)
 		(stroke
@@ -7477,7 +7437,7 @@
 		(stroke
 			(width 0)
 			(type default)
-			(color 0 0 0 1)
+			(color 255 0 0 1)
 		)
 		(uuid "88933d1e-024d-464b-85b2-be9c5aa123ca")
 	)
@@ -7504,16 +7464,6 @@
 	)
 	(wire
 		(pts
-			(xy 445.77 255.27) (xy 438.15 255.27)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8ac38006-cf5c-4709-baa0-1c7bd8532672")
-	)
-	(wire
-		(pts
 			(xy 316.23 162.56) (xy 327.66 162.56)
 		)
 		(stroke
@@ -7530,7 +7480,7 @@
 		(stroke
 			(width 0)
 			(type default)
-			(color 0 0 0 1)
+			(color 255 0 0 1)
 		)
 		(uuid "8bebb3c4-3e2d-425b-9d8f-7d03a898c451")
 	)
@@ -7791,7 +7741,7 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 184.15) (xy 532.13 184.15)
+			(xy 520.7 184.15) (xy 521.97 184.15)
 		)
 		(stroke
 			(width 0)
@@ -8105,6 +8055,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "b2414623-17c8-420a-80d1-b37fe0039e82")
 	)
@@ -8115,6 +8066,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "b2fc41c8-7280-4762-8246-be02683ab87a")
 	)
@@ -8330,7 +8282,7 @@
 	)
 	(wire
 		(pts
-			(xy 530.86 205.74) (xy 520.7 205.74)
+			(xy 521.97 205.74) (xy 520.7 205.74)
 		)
 		(stroke
 			(width 0)
@@ -8554,16 +8506,6 @@
 	)
 	(wire
 		(pts
-			(xy 445.77 260.35) (xy 438.15 260.35)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d4aeb30e-47f2-415b-966c-8d82e1b5c006")
-	)
-	(wire
-		(pts
 			(xy 472.44 128.27) (xy 476.25 128.27)
 		)
 		(stroke
@@ -8655,6 +8597,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "d97ca97d-cdb7-4c94-8090-b7adba647f08")
 	)
@@ -8668,16 +8611,6 @@
 			(color 255 0 0 1)
 		)
 		(uuid "dafa6e64-0a73-4b97-9273-68758ebb6f71")
-	)
-	(wire
-		(pts
-			(xy 445.77 262.89) (xy 438.15 262.89)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db9d6e18-159f-481c-bea5-126b8db19505")
 	)
 	(wire
 		(pts
@@ -8729,6 +8662,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 0 0 0 1)
 		)
 		(uuid "de1a2407-aaf2-4ab4-918a-d1e1314939ab")
 	)
@@ -8783,6 +8717,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "e032e777-201e-4d39-8893-4fd5dfba7254")
 	)
@@ -8803,6 +8738,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "e0c5cced-e494-47c3-b5cc-6846493c545f")
 	)
@@ -8963,6 +8899,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "ebe37e42-0724-4e78-8f4d-01483991fc50")
 	)
@@ -8994,6 +8931,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "efabcfbd-56b7-4047-9ec8-e0d993e1dfa1")
 	)
@@ -9199,6 +9137,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "fbf674df-fc9f-4e14-a1fa-11935fa3c004")
 	)
@@ -9242,6 +9181,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "fd9dc0cf-0475-4456-8a7e-08cd560edaf9")
 	)
@@ -9252,6 +9192,7 @@
 		(stroke
 			(width 0)
 			(type default)
+			(color 255 0 0 1)
 		)
 		(uuid "fdd3e093-bc14-43cf-b506-cecc8ab7ad09")
 	)
@@ -10466,7 +10407,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 535.94 203.2 0)
+		(at 527.05 203.2 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10475,7 +10416,7 @@
 		(fields_autoplaced yes)
 		(uuid "59a73e22-fd57-4f3a-a07f-f58db34cd878")
 		(property "Reference" "J2"
-			(at 538.48 203.1999 0)
+			(at 529.59 203.1999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10484,7 +10425,7 @@
 			)
 		)
 		(property "Value" "Ignitor2_Output"
-			(at 538.48 205.7399 0)
+			(at 529.59 205.7399 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10493,7 +10434,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 535.94 203.2 0)
+			(at 527.05 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10502,7 +10443,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 535.94 203.2 0)
+			(at 527.05 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10511,7 +10452,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 535.94 203.2 0)
+			(at 527.05 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10782,7 +10723,7 @@
 				)
 			)
 		)
-		(property "Value" "LOX_Inj_Line"
+		(property "Value" "LOX_Inj_Line_PT"
 			(at 357.505 254 90)
 			(effects
 				(font
@@ -11250,7 +11191,7 @@
 				)
 			)
 		)
-		(property "Value" "Kero_Inj_Line"
+		(property "Value" "Kero_Inj_Line_PT"
 			(at 357.505 264.16 90)
 			(effects
 				(font
@@ -11544,7 +11485,7 @@
 				)
 			)
 		)
-		(property "Value" "Combusion_Chamber"
+		(property "Value" "Combusion_Chamber_PT"
 			(at 357.505 274.32 90)
 			(effects
 				(font
@@ -11596,7 +11537,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 537.21 181.61 0)
+		(at 527.05 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11605,7 +11546,7 @@
 		(fields_autoplaced yes)
 		(uuid "80c15df1-e59b-4a49-9d64-2c66779737fa")
 		(property "Reference" "J1"
-			(at 539.75 181.6099 0)
+			(at 529.59 181.6099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11614,7 +11555,7 @@
 			)
 		)
 		(property "Value" "Ignitor1_Output"
-			(at 539.75 184.1499 0)
+			(at 529.59 184.1499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11623,7 +11564,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 537.21 181.61 0)
+			(at 527.05 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11632,7 +11573,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 537.21 181.61 0)
+			(at 527.05 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11641,7 +11582,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 537.21 181.61 0)
+			(at 527.05 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11821,7 +11762,7 @@
 				)
 			)
 		)
-		(property "Value" "LOX_Tank"
+		(property "Value" "LOX_Tank_PT"
 			(at 357.505 234.95 90)
 			(effects
 				(font
@@ -12874,7 +12815,7 @@
 				)
 			)
 		)
-		(property "Value" "Kero_Tank"
+		(property "Value" "Kero_Tank_PT"
 			(at 357.505 243.84 90)
 			(effects
 				(font
