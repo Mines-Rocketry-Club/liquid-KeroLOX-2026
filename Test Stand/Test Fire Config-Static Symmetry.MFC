@@ -1,16 +1,18 @@
 [StartTime]
-Test Fire Config-Static Symmetry.MFC=5s
+Test Fire Config-Static Symmetry.MFC=
 [SolverState]
 Test Fire Config-Static Symmetry.MFC=2
 [MainFrame]
-Test Fire Config-Static Symmetry.MFC=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPBKCAAAAAMKBAAAAAJAEAAAAAPHCAAAAA
+Test Fire Config-Static Symmetry.MFC=MCAAAAAAAAAAAAAABAAAAAAAPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPCLEAAAAAGOAAAAAAKBGAAAAACBDAAAAA
 [ShowMin]
-Test Fire Config-Static Symmetry.MFC=No
+Test Fire Config-Static Symmetry.MFC=yes
 [SolverType]
 Test Fire Config-Static Symmetry.MFC=Linear Analysis
 [StudyType]
-Test Fire Config-Static Symmetry.MFC=0
+Test Fire Config-Static Symmetry.MFC=-1
 [StudyName]
 Test Fire Config-Static Symmetry.MFC=Static Symmetry
 [Solver]
 Test Fire Config-Static Symmetry.MFC=Sparse
+[Dynamic]
+Test Fire Config-Static Symmetry.MFC=0
