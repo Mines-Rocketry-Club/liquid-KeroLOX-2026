@@ -5381,7 +5381,7 @@
 		)
 		(uuid "8657a6f8-8b4a-4138-b97d-589b99826b66")
 	)
-	(text "8 Relay Board 24V Coils"
+	(text "8 Relay Board 5V Coils"
 		(exclude_from_sim no)
 		(at 441.452 211.582 0)
 		(effects
@@ -5520,12 +5520,6 @@
 		(diameter 0)
 		(color 0 0 0 1)
 		(uuid "35a8a8ae-e488-44cf-a094-c903571cfbfb")
-	)
-	(junction
-		(at 416.56 137.16)
-		(diameter 0)
-		(color 255 153 0 1)
-		(uuid "38cc16c4-e839-4179-aeab-a4a269faa544")
 	)
 	(junction
 		(at 393.7 238.76)
@@ -5784,6 +5778,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "dc855160-e5c1-440a-bde8-1f3357fd4ec8")
+	)
+	(junction
+		(at 398.78 137.16)
+		(diameter 0)
+		(color 72 72 0 1)
+		(uuid "dd53dc41-b680-4838-b199-ae6afb3be01a")
 	)
 	(junction
 		(at 316.23 162.56)
@@ -6269,6 +6269,17 @@
 			(color 255 0 0 1)
 		)
 		(uuid "2144bcb9-e8f6-4f61-aeb9-afafb88487c6")
+	)
+	(wire
+		(pts
+			(xy 414.02 137.16) (xy 414.02 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 128 77 0 1)
+		)
+		(uuid "21d7e1e2-97f3-407d-bda8-fc908c1dee10")
 	)
 	(wire
 		(pts
@@ -6766,17 +6777,6 @@
 	)
 	(wire
 		(pts
-			(xy 416.56 137.16) (xy 416.56 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 255 153 0 1)
-		)
-		(uuid "45ac96e2-19fe-472f-92df-65c9be9cef44")
-	)
-	(wire
-		(pts
 			(xy 349.25 140.97) (xy 346.71 140.97)
 		)
 		(stroke
@@ -7122,17 +7122,6 @@
 	)
 	(wire
 		(pts
-			(xy 416.56 162.56) (xy 429.26 162.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 255 153 0 1)
-		)
-		(uuid "56f52acb-7dc0-4781-821e-5b67a9f6cc4c")
-	)
-	(wire
-		(pts
 			(xy 214.63 181.61) (xy 226.06 181.61)
 		)
 		(stroke
@@ -7303,6 +7292,17 @@
 			(color 0 0 0 1)
 		)
 		(uuid "63546d84-76dc-42c4-aabc-78e7671e4d81")
+	)
+	(wire
+		(pts
+			(xy 414.02 162.56) (xy 429.26 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 128 77 0 1)
+		)
+		(uuid "63fc2b03-9458-480d-b453-63445c5a1276")
 	)
 	(wire
 		(pts
@@ -8796,6 +8796,17 @@
 			(type default)
 		)
 		(uuid "cb9bd53f-a438-4772-b0d1-113b7df037b3")
+	)
+	(wire
+		(pts
+			(xy 398.78 137.16) (xy 414.02 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 128 77 0 1)
+		)
+		(uuid "cc9575ff-aef4-4f5a-98ca-997f59212159")
 	)
 	(wire
 		(pts
