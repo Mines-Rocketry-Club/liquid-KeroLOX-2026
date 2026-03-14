@@ -1,5 +1,6 @@
 name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin
+thrust,Pi,counts,-1000000,1000000,-500000,500000,HX711
+LOX_level,Pi,kg,-1000000,1000000,-500000,500000,HX711
 TempC,Propulsion,°C,-40,120,0,90,LM35,.2,-20,A2
 PressurePSI,Tank,psi,0,300,20,250,PT-300,0.73,0,A1
-LOX_Level,Ground,%,0,100,10,90,LVL-01,0.0977,0,A0
 Fuel_Inj_Valve, GSE, T/F, -1, 1, -.5, .5, false, 1, 1, 5

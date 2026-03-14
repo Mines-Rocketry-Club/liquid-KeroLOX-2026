@@ -11,7 +11,7 @@ class Dashboard(tk.Tk):
     def __init__(self, telemetry_csv: str = "telemetryFile.csv"):
         super().__init__()
         self.title("System Dashboard")
-        self.geometry("700x540")
+        self.geometry("920x560")
         self.configure(bg=BG_COLOR)
 
         self.state = "LEVEL_CHECK"
@@ -33,7 +33,6 @@ class Dashboard(tk.Tk):
 
         self.telemetry_enabled = True
         self.last_control_cmd_time = 0.0
-
         self.recording = False
 
         self.metrics = {}
@@ -41,6 +40,7 @@ class Dashboard(tk.Tk):
 
         self.on_state_request = None
         self.on_prompt_answer = None
+        self.on_apply_lox_calibration = None
         self.pending_prompt_id = None
 
         self.state_label = None
@@ -50,6 +50,10 @@ class Dashboard(tk.Tk):
         self.cmd = None
         self.log = None
         self.record_button = None
+
+        self.raw_lox_value_label = None
+        self.lox_raw_0_entry = None
+        self.lox_raw_10_entry = None
 
         self._build_ui()
         self._apply_state(self.state)
@@ -97,6 +101,9 @@ class Dashboard(tk.Tk):
     def apply_metric_from_thread(self, name: str, value: float):
         self.after(0, lambda: self._apply_metric(name, value))
 
+    def update_raw_lox_from_thread(self, raw_value: float):
+        self.after(0, lambda: self._update_raw_lox(raw_value))
+
     def show_message_from_thread(self, text: str):
         self.after(0, lambda: self._log(f"[Arduino] {text}"))
 
@@ -132,15 +139,53 @@ class Dashboard(tk.Tk):
         tele_frame = ttk.Frame(self)
         tele_frame.pack(fill="x", padx=10, pady=(0, 6))
 
+        left_status = ttk.Frame(tele_frame)
+        left_status.pack(side="left", fill="x", expand=True)
+
         self.telemetry_freq_label = tk.Label(
-            tele_frame, text="Telemetry: -- Hz", bg=BG_COLOR, fg="black"
+            left_status, text="Telemetry: -- Hz", bg=BG_COLOR, fg="black"
         )
         self.telemetry_freq_label.pack(side="left")
 
         self.ping_label = tk.Label(
-            tele_frame, text="Ping: -- ms", bg=BG_COLOR, fg="black"
+            left_status, text="Ping: -- ms", bg=BG_COLOR, fg="black"
         )
         self.ping_label.pack(side="left", padx=20)
+
+        right_cal = ttk.Frame(tele_frame)
+        right_cal.pack(side="right", anchor="e")
+
+        raw_frame = ttk.Frame(right_cal)
+        raw_frame.pack(anchor="e", pady=(0, 2))
+
+        ttk.Label(raw_frame, text="Raw LOX Level:").pack(side="left")
+        self.raw_lox_value_label = tk.Label(
+            raw_frame,
+            text="--",
+            width=12,
+            relief="groove",
+            bd=2,
+            bg="#D3D3D3",
+            fg="black",
+        )
+        self.raw_lox_value_label.pack(side="left", padx=(6, 0))
+
+        cal_frame = ttk.Frame(right_cal)
+        cal_frame.pack(anchor="e")
+
+        ttk.Label(cal_frame, text="0 kg raw").pack(side="left")
+        self.lox_raw_0_entry = ttk.Entry(cal_frame, width=10)
+        self.lox_raw_0_entry.pack(side="left", padx=(4, 10))
+
+        ttk.Label(cal_frame, text="10 kg raw").pack(side="left")
+        self.lox_raw_10_entry = ttk.Entry(cal_frame, width=10)
+        self.lox_raw_10_entry.pack(side="left", padx=(4, 10))
+
+        ttk.Button(
+            cal_frame,
+            text="Apply LOX Cal",
+            command=self._apply_lox_calibration_clicked,
+        ).pack(side="left")
 
         ttk.Separator(self, orient="horizontal").pack(fill="x", padx=10, pady=5)
 
@@ -272,6 +317,39 @@ class Dashboard(tk.Tk):
     def _apply_metric(self, name: str, value: float):
         self.metrics[name] = {"value": value}
         self.refresh_table()
+
+    def _update_raw_lox(self, raw_value: float):
+        if raw_value is None:
+            self.raw_lox_value_label.config(text="--")
+        else:
+            self.raw_lox_value_label.config(text=f"{raw_value:.2f}")
+
+    def _apply_lox_calibration_clicked(self):
+        raw0_text = self.lox_raw_0_entry.get().strip()
+        raw10_text = self.lox_raw_10_entry.get().strip()
+
+        try:
+            raw0 = float(raw0_text)
+            raw10 = float(raw10_text)
+        except ValueError:
+            self._log("LOX calibration inputs must be numbers.")
+            return
+
+        if raw10 == raw0:
+            self._log("LOX calibration failed: 10 kg raw cannot equal 0 kg raw.")
+            return
+
+        if self.on_apply_lox_calibration:
+            self.on_apply_lox_calibration(raw0, raw10)
+        else:
+            self._log("No LOX calibration callback is connected.")
+
+    def set_lox_calibration_inputs(self, raw0: float, raw10: float):
+        self.lox_raw_0_entry.delete(0, "end")
+        self.lox_raw_0_entry.insert(0, str(raw0))
+
+        self.lox_raw_10_entry.delete(0, "end")
+        self.lox_raw_10_entry.insert(0, str(raw10))
 
     def _metric_tag(self, name: str, value: float) -> str:
         m = self.meta.get(name)
