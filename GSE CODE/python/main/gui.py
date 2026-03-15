@@ -29,6 +29,7 @@ class Dashboard(tk.Tk):
             "VENT": "#FF6F61",
             "VENTING_COMPLETE": "#FF6F61",
             "SAFE_UNLOADED": "#98FB98",
+            "STARTUP": "#98FB98",
         }
 
         self.telemetry_enabled = True
@@ -54,6 +55,7 @@ class Dashboard(tk.Tk):
         self.raw_lox_value_label = None
         self.lox_raw_0_entry = None
         self.lox_raw_10_entry = None
+        self.apply_lox_button = None
 
         self._build_ui()
         self._apply_state(self.state)
@@ -119,6 +121,54 @@ class Dashboard(tk.Tk):
         style.configure("TFrame", background=BG_COLOR)
         style.configure("TLabel", background=BG_COLOR, foreground="black")
 
+        style.configure(
+            "RedBig.TButton",
+            font=("Arial", 16, "bold"),
+            padding=(18, 10),
+            background="#FF3333",
+            foreground="black",
+            borderwidth=3,
+            relief="raised",
+        )
+        style.map(
+            "RedBig.TButton",
+            background=[("active", "#E62A2A"), ("pressed", "#CC0000")],
+        )
+
+        style.configure(
+            "Big.TButton",
+            font=("Arial", 16, "bold"),
+            padding=(18, 10),
+            borderwidth=3,
+            relief="raised",
+        )
+
+        style.configure(
+            "RecordOn.Big.TButton",
+            font=("Arial", 16, "bold"),
+            padding=(18, 10),
+            borderwidth=3,
+            relief="raised",
+            background="#98FB98",
+            foreground="black",
+        )
+        style.map(
+            "RecordOn.Big.TButton",
+            background=[("active", "#7CFF7C"), ("pressed", "#5FE65F")],
+        )
+
+        style.configure(
+            "CalGreen.TButton",
+            font=("Arial", 10, "bold"),
+            padding=(10, 4),
+            background="#98FB98",
+            foreground="black",
+        )
+        style.map(
+            "CalGreen.TButton",
+            background=[("active", "#7CFF7C"), ("pressed", "#5FE65F")],
+        )
+
         state_bar = ttk.Frame(self)
         state_bar.pack(fill="x", padx=10, pady=(10, 6))
 
@@ -181,49 +231,15 @@ class Dashboard(tk.Tk):
         self.lox_raw_10_entry = ttk.Entry(cal_frame, width=10)
         self.lox_raw_10_entry.pack(side="left", padx=(4, 10))
 
-        ttk.Button(
+        self.apply_lox_button = ttk.Button(
             cal_frame,
             text="Apply LOX Cal",
             command=self._apply_lox_calibration_clicked,
-        ).pack(side="left")
+        )
+        self.apply_lox_button.pack(side="left")
+        self.apply_lox_button.configure(state="disabled")
 
         ttk.Separator(self, orient="horizontal").pack(fill="x", padx=10, pady=5)
-
-        style.configure(
-            "RedBig.TButton",
-            font=("Arial", 16, "bold"),
-            padding=(18, 10),
-            background="#FF3333",
-            foreground="black",
-            borderwidth=3,
-            relief="raised",
-        )
-        style.map(
-            "RedBig.TButton",
-            background=[("active", "#E62A2A"), ("pressed", "#CC0000")],
-        )
-
-        style.configure(
-            "Big.TButton",
-            font=("Arial", 16, "bold"),
-            padding=(18, 10),
-            borderwidth=3,
-            relief="raised",
-        )
-
-        style.configure(
-            "RecordOn.Big.TButton",
-            font=("Arial", 16, "bold"),
-            padding=(18, 10),
-            borderwidth=3,
-            relief="raised",
-            background="#98FB98",
-            foreground="black",
-        )
-        style.map(
-            "RecordOn.Big.TButton",
-            background=[("active", "#7CFF7C"), ("pressed", "#5FE65F")],
-        )
 
         btn_frame = ttk.Frame(self)
         btn_frame.pack(fill="x", padx=10, pady=3)
@@ -314,6 +330,18 @@ class Dashboard(tk.Tk):
         self.state_label.config(text=upper, bg=color)
         self._log(f"Arduino is now in state: {upper}")
 
+        if self.apply_lox_button is not None:
+            if upper == "STARTUP":
+                self.apply_lox_button.configure(
+                    state="normal",
+                    style="CalGreen.TButton",
+                )
+            else:
+                self.apply_lox_button.configure(
+                    state="disabled",
+                    style="TButton",
+                )
+
     def _apply_metric(self, name: str, value: float):
         self.metrics[name] = {"value": value}
         self.refresh_table()
@@ -325,6 +353,10 @@ class Dashboard(tk.Tk):
             self.raw_lox_value_label.config(text=f"{raw_value:.2f}")
 
     def _apply_lox_calibration_clicked(self):
+        if self.state != "STARTUP":
+            self._log("LOX calibration only allowed during STARTUP state.")
+            return
+
         raw0_text = self.lox_raw_0_entry.get().strip()
         raw10_text = self.lox_raw_10_entry.get().strip()
 
@@ -405,8 +437,13 @@ class Dashboard(tk.Tk):
 
         upper = text.upper().strip()
 
+        if upper == "ELEVATED":
+            text = "ELEVATED"
+        elif upper.startswith("ELEVATED "):
+            text = upper
+
         if self.pending_prompt_id is not None:
-            if upper == "ABORT" or upper.startswith("ELEVATED "):
+            if upper == "ABORT" or upper == "ELEVATED" or upper.startswith("ELEVATED "):
                 self._send_raw(text)
                 return
 

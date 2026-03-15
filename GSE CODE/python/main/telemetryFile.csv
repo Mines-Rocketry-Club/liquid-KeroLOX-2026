@@ -1,6 +1,9 @@
-name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin
+name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin,is_output
 thrust,Pi,counts,-1000000,1000000,-500000,500000,HX711
 LOX_level,Pi,kg,-1000000,1000000,-500000,500000,HX711
-TempC,Propulsion,°C,-40,120,0,90,LM35,.2,-20,A2
-PressurePSI,Tank,psi,0,300,20,250,PT-300,0.73,0,A1
-Fuel_Inj_Valve, GSE, T/F, -1, 1, -.5, .5, false, 1, 1, 5
+TempC,Propulsion,°C,-40,120,0,90,LM35,.2,-20,A2, 0
+PressurePSI,Tank,psi,0,300,20,250,PT-300,0.73,0,A1, 0
+Fuel_Inj_Valve, GSE, T/F, -1, 1, -.5, .5, false, 1, 1, 5, 1
+TankPressure,GSE,psi,0,500,50,450,PT-001,0.122,0,A0,0
+IgniterCommand,GSE,state,0,1,0,1,NA,1,0,7,1
+MainValve,GSE,state,0,1,0,1,NA,1,0,8,true

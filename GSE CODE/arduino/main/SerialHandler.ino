@@ -10,6 +10,7 @@ void forceAbort();
 void setStateOverride(const char *cmd);
 void broadcastState();
 void promptResendIfActive();
+void markPiGetReceived();   // added
 
 bool   g_answerReady = false;
 String g_answerText;
@@ -34,6 +35,7 @@ static void handleLine(const String& lineIn) {
       promptResendIfActive();
       return;
     }
+
     telemetry_appendConfigLine(line);
     return;
   }
@@ -45,6 +47,7 @@ static void handleLine(const String& lineIn) {
   }
 
   if (line.equalsIgnoreCase("GET")) {
+    markPiGetReceived();   // added so GET refreshes the Pi watchdog timer
     sendTelemetry();
     return;
   }

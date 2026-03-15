@@ -6,14 +6,21 @@
 //   <any CSV line>    -> append to telemetry config text
 //   CFGEND            -> parse CSV & build channels
 //
-// NEW CSV FORMAT (11 columns):
-//   name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin
+// NEW CSV FORMAT (12 columns):
+//   name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin,is_output
 //
 // Arduino uses:
-//   - name  (telemetry label)
-//   - owner (stored but not used in logic yet)
-//   - scale, offset, pin (last three fields) for value:
-//       value = raw_adc * scale + offset
+//   - name
+//   - owner
+//   - scale, offset, pin
+//   - is_output
+//
+// Reading behavior:
+//   if is_output == false:
+//       value = analogRead(pin) * scale + offset
+//
+//   if is_output == true:
+//       value = digitalRead(pin) * scale + offset
 //
 // Public API:
 //   void telemetry_beginConfig();
@@ -30,16 +37,17 @@ extern void sendMessage(const char *msg);
 
 struct TelemetryChannel {
   String  name;
-  String  owner;      // NEW: second column in CSV
+  String  owner;
   String  unit;
   float   lowRed;
   float   highRed;
   float   lowYellow;
   float   highYellow;
-  String  partnumber;   // not used in control logic yet
+  String  partnumber;
   float   scale;
   float   offset;
   uint8_t pin;
+  bool    isOutput;
 };
 
 static const int MAX_CHANNELS = 32;
@@ -63,16 +71,34 @@ static uint8_t parsePin(const String &pinStr) {
     int n = s.substring(1).toInt();  // "A2" -> 2
     return A0 + n;
   }
+
   // digital pin like "5" or "13"
   return (uint8_t)s.toInt();
 }
 
-// Safe float conversion with fallback
 static float toFloatSafe(const String &s, float fallback = 0.0f) {
   String t = s;
   t.trim();
   if (!t.length()) return fallback;
   return t.toFloat();
+}
+
+static bool toBoolSafe(const String &s, bool fallback = false) {
+  String t = s;
+  t.trim();
+  t.toUpperCase();
+
+  if (!t.length()) return fallback;
+
+  if (t == "1" || t == "TRUE" || t == "YES" || t == "Y" || t == "OUTPUT") {
+    return true;
+  }
+
+  if (t == "0" || t == "FALSE" || t == "NO" || t == "N" || t == "INPUT") {
+    return false;
+  }
+
+  return fallback;
 }
 
 // Parse full CSV stored in `telemetryCsvText`
@@ -101,18 +127,17 @@ static void parseTelemetryFromString(const String &cfg) {
     lineStart = lineEnd + 1;
 
     if (!line.length()) {
-      // completely blank line, ignore
       continue;
     }
 
     rowIndex++;
 
-    // Split into up to 11 fields
-    String fields[11];
+    // Split into up to 12 fields
+    String fields[12];
     int idx   = 0;
     int start = 0;
 
-    for (int i = 0; i < line.length() && idx < 10; i++) {
+    for (int i = 0; i < line.length() && idx < 11; i++) {
       if (line.charAt(i) == ',') {
         fields[idx++] = line.substring(start, i);
         start = i + 1;
@@ -122,35 +147,35 @@ static void parseTelemetryFromString(const String &cfg) {
 
     int fieldCount = idx + 1;
 
-    // Expect at least 11 columns in the new format
-    if (fieldCount < 11) {
+    // Expect at least 12 columns in the new format
+    if (fieldCount < 12) {
       char buf[96];
       snprintf(buf, sizeof(buf),
-               "WARN: Telemetry CSV row %d has %d columns (expected 11).",
+               "WARN: Telemetry CSV row %d has %d columns (expected 12).",
                rowIndex, fieldCount);
       sendMessage(buf);
 
       String rowMsg = "Row content: \"" + line + "\"";
       sendMessage(rowMsg.c_str());
 
-      // Skip this row (don't create a channel from it)
       continue;
     }
 
     TelemetryChannel &ch = channels[channelCount++];
 
-    // NEW column order:
-    //  0: name
-    //  1: owner
-    //  2: unit
-    //  3: low_red
-    //  4: high_red
-    //  5: low_yellow
-    //  6: high_yellow
-    //  7: partnumber
-    //  8: scale
-    //  9: offset
-    // 10: pin
+    // Column order:
+    //  0:  name
+    //  1:  owner
+    //  2:  unit
+    //  3:  low_red
+    //  4:  high_red
+    //  5:  low_yellow
+    //  6:  high_yellow
+    //  7:  partnumber
+    //  8:  scale
+    //  9:  offset
+    // 10:  pin
+    // 11:  is_output
 
     ch.name       = fields[0];
     ch.name.trim();
@@ -172,6 +197,7 @@ static void parseTelemetryFromString(const String &cfg) {
     ch.scale      = toFloatSafe(fields[8], 1.0f);
     ch.offset     = toFloatSafe(fields[9], 0.0f);
     ch.pin        = parsePin(fields[10]);
+    ch.isOutput   = toBoolSafe(fields[11], false);
   }
 
   if (channelCount > 0) {
@@ -220,9 +246,15 @@ void sendTelemetry() {
 
   for (int i = 0; i < channelCount; i++) {
     TelemetryChannel &ch = channels[i];
+    float val;
 
-    int   raw = analogRead(ch.pin);
-    float val = raw * ch.scale + ch.offset;
+    if (ch.isOutput) {
+      int raw = digitalRead(ch.pin);
+      val = raw * ch.scale + ch.offset;
+    } else {
+      int raw = analogRead(ch.pin);
+      val = raw * ch.scale + ch.offset;
+    }
 
     Serial.print(ch.name);
     Serial.print(" ");
@@ -253,11 +285,15 @@ float getTelemetry(const String& name) {
     chName.toUpperCase();
 
     if (chName == target) {
-      int raw = analogRead(channels[i].pin);
-      return raw * channels[i].scale + channels[i].offset;
+      if (channels[i].isOutput) {
+        int raw = digitalRead(channels[i].pin);
+        return raw * channels[i].scale + channels[i].offset;
+      } else {
+        int raw = analogRead(channels[i].pin);
+        return raw * channels[i].scale + channels[i].offset;
+      }
     }
   }
 
-  // No matching name
   return NAN;
 }

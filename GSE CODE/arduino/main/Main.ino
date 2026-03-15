@@ -5,6 +5,9 @@ void processSerial();
 void initStateMachine();
 void stateMachineLoop();
 
+void markPiGetReceived();
+bool isPiGetTimedOut();
+
 void setup() {
   Serial.begin(115200);
   initStateMachine();

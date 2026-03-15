@@ -8,28 +8,34 @@ extern int  askPassword();
 extern void promptCancel();
 
 enum SystemState {
-  LEVEL_CHECK = 0,
-  PREFILL,
-  LOAD,
-  MANUAL,
+  STARTUP = 0,
+  PURGE,
+  WAIT_FOR_FILL,
+  FILL,
+  PERSONNEL_DEPARTING,
   ARMED,
   FIRE,
   ABORT,
-  SAFE_UNLOADED,
+  PP1,
+  PP2,
+  TEST_COMPLETE,
   STATE_COUNT
 };
 
-static int currentState = (int)LEVEL_CHECK;
+static int currentState = (int)STARTUP;
 
 static const char* STATE_NAMES[STATE_COUNT] = {
-  "LEVEL_CHECK",
-  "PREFILL",
-  "LOAD",
-  "MANUAL",
+  "STARTUP",
+  "PURGE",
+  "WAIT_FOR_FILL",
+  "FILL",
+  "PERSONNEL_DEPARTING",
   "ARMED",
   "FIRE",
   "ABORT",
-  "SAFE_UNLOADED"
+  "PP1",
+  "PP2",
+  "TEST_COMPLETE"
 };
 
 static const char* stateToString_int(int s) {
@@ -52,6 +58,33 @@ void broadcastState() {
   Serial.println(stateToString_int(currentState));
 }
 
+// --------------------------------------------------
+// Pi GET watchdog timeout
+// Easy to change later: 15 min, 20 min, 10 min, etc.
+// --------------------------------------------------
+const unsigned long PI_GET_TIMEOUT_MS = 1UL * 60UL * 1000UL;
+
+// Tracks last time a GET was received from the Raspberry Pi
+static unsigned long g_lastPiGetMs = 0;
+
+// Called by serial handler whenever a GET command is received
+void markPiGetReceived() {
+  g_lastPiGetMs = millis();
+}
+
+// True if too long has passed since last GET
+bool isPiGetTimedOut() {
+  unsigned long now = millis();
+  return (now - g_lastPiGetMs) >= PI_GET_TIMEOUT_MS;
+}
+
+// Only these states should auto-abort on Pi timeout
+static bool stateRequiresPiHeartbeat(int state) {
+  return (state == PERSONNEL_DEPARTING ||
+          state == ARMED ||
+          state == FIRE);
+}
+
 // -------------------------
 // ELEVATED password gate
 // -------------------------
@@ -59,9 +92,13 @@ static bool g_elevatedPending = false;
 static int  g_elevatedTarget  = -1;
 
 void initStateMachine() {
-  currentState = LEVEL_CHECK;
+  currentState = STARTUP;
   g_elevatedPending = false;
   g_elevatedTarget  = -1;
+
+  // Initialize watchdog reference so timeout starts counting from boot
+  g_lastPiGetMs = millis();
+
   sendMessage("State machine initialized");
   broadcastState();
 }
@@ -73,7 +110,6 @@ void setStateOverride(const char *cmd) {
     return;
   }
 
-  // Require password before applying any elevated override (including MANUAL)
   promptCancel();
   g_elevatedPending = true;
   g_elevatedTarget  = next;
@@ -90,6 +126,20 @@ void forceAbort() {
 }
 
 void stateMachineLoop() {
+  // --------------------------------------------------
+  // Auto-abort if Pi has not sent GET in time
+  // Only active in PERSONNEL_DEPARTING / ARMED / FIRE
+  // --------------------------------------------------
+  if (stateRequiresPiHeartbeat(currentState) && isPiGetTimedOut()) {
+    promptCancel();
+    g_elevatedPending = false;
+    g_elevatedTarget  = -1;
+    currentState = ABORT;
+    sendMessage("ABORT triggered: no GET received from Raspberry Pi within timeout");
+    broadcastState();
+    return;
+  }
+
   // If an ELEVATED override is pending, handle it first and block everything else
   if (g_elevatedPending) {
     int pw = askPassword();
@@ -101,37 +151,58 @@ void stateMachineLoop() {
       sendMessage("[ELEVATED] Password accepted");
       broadcastState();
     }
-    // pw == 0 (wrong): askPassword() already printed MSG; keep pending so they can retry
     return;
   }
 
   switch ((SystemState)currentState) {
 
-    case LEVEL_CHECK: {
-      static const String opts[] = { "PREFILL" };
-      int r = promptUserSelect("LEVEL_CHECK: Next? (PREFILL)", opts, 1);
+    case STARTUP: {
+      static const String opts[] = { "PURGE" };
+      // TODO, CLOSE VALVES
+      int r = promptUserSelect("STARTUP: Next? (PURGE)", opts, 1);
       if (r == -1) break;
-      if (r == 1) currentState = PREFILL;
+      if (r == 1) currentState = PURGE;
       broadcastState();
       break;
     }
 
-    case PREFILL: {
-      static const String opts[] = { "LOAD" };
-      int r = promptUserSelect("PREFILL: Next? (LOAD)", opts, 1);
-      if (r == -1) break;
-      if (r == 1) currentState = LOAD;
+    case PURGE: {
+      static const String opts[] = { "WAIT_FOR_FILL" };
+      sendMessage("PURGE INITIALIZED");
+      // TODO, purge sequence
+      sendMessage("PURGE COMPLETE");
+      currentState = WAIT_FOR_FILL;
       broadcastState();
       break;
     }
 
-    case LOAD: {
-      // MANUAL removed from here; only reachable via ELEVATED
+    case WAIT_FOR_FILL: {
+      static const String opts[] = { "FILL" };
+      // TODO, CLOSE VALVES
+      int r = promptUserSelect("WAIT_FOR_FILL: Next? (FILL)", opts, 1);
+      if (r == -1) break;
+      if (r == 1) currentState = FILL;
+      broadcastState();
+      break;
+    }
+
+    case FILL: {
+      static const String opts[] = { "PERSONNEL_DEPARTING" };
+      // TODO OPEN VENT VALVE
+      int r = promptUserSelect("FILL: Next? (PERSONNEL_DEPARTING)", opts, 1);
+      if (r == -1) break;
+      if (r == 1) currentState = PERSONNEL_DEPARTING;
+      broadcastState();
+      break;
+    }
+
+    case PERSONNEL_DEPARTING: {
       static const String opts[] = { "ARMED" };
       static bool gateArmed = false;
+      // TODO, CLOSE VALVES
 
       if (!gateArmed) {
-        int r = promptUserSelect("LOAD: Next? (ARMED)", opts, 1);
+        int r = promptUserSelect("PERSONNEL_DEPARTING: Next? (ARMED)", opts, 1);
         if (r == -1) break;
 
         if (r == 1) {
@@ -156,43 +227,9 @@ void stateMachineLoop() {
       break;
     }
 
-    case MANUAL: {
-      // MANUAL is now only ENTERED via ELEVATED, but you can exit to other states here.
-      static const String opts[] = { "LEVEL_CHECK", "PREFILL", "LOAD", "ARMED" };
-      static bool gateArmed = false;
-
-      if (!gateArmed) {
-        int r = promptUserSelect("MANUAL: Next? (LEVEL_CHECK / PREFILL / LOAD / ARMED)", opts, 4);
-        if (r == -1) break;
-
-        if (r == 1) { currentState = LEVEL_CHECK; broadcastState(); break; }
-        if (r == 2) { currentState = PREFILL;     broadcastState(); break; }
-        if (r == 3) { currentState = LOAD;        broadcastState(); break; }
-        if (r == 4) {
-          gateArmed = true;   // keep ARMED password gate
-          promptCancel();
-        } else {
-          break;
-        }
-      }
-
-      if (gateArmed) {
-        int pw = askPassword();
-        if (pw == -1) break;
-
-        if (pw == 1) {
-          gateArmed = false;
-          currentState = ARMED;
-          sendMessage("Password accepted");
-          broadcastState();
-        }
-      }
-      break;
-    }
-
     case ARMED: {
-      // MANUAL removed from here; only reachable via ELEVATED
       static const String opts[] = { "FIRE" };
+      // TODO, OPEN PRESSURIZING VALVES
       int r = promptUserSelect("ARMED: Next? (FIRE)", opts, 1);
       if (r == -1) break;
       if (r == 1) currentState = FIRE;
@@ -201,31 +238,50 @@ void stateMachineLoop() {
     }
 
     case FIRE: {
-      // MANUAL removed from here; only reachable via ELEVATED
-      static const String opts[] = { "SAFE_UNLOADED" };
-      int r = promptUserSelect("FIRE: Next? (SAFE_UNLOADED)", opts, 1);
+      static const String opts[] = { "PP1" };
+      // TODO, FIRE SEQUENCE
+      int r = promptUserSelect("FIRE: Next? (PP1)", opts, 1);
       if (r == -1) break;
-      if (r == 1) currentState = SAFE_UNLOADED;
+      if (r == 1) currentState = PP1;
       broadcastState();
       break;
     }
 
     case ABORT: {
-      // MANUAL removed from here; only reachable via ELEVATED
-      static const String opts[] = { "SAFE_UNLOADED" };
-      int r = promptUserSelect("ABORT: Next? (SAFE_UNLOADED)", opts, 1);
-      if (r == -1) break;
-      if (r == 1) currentState = SAFE_UNLOADED;
+      static const String opts[] = { "PP1" };
+      sendMessage("ABORT INITIALIZED");
+      // TODO, ABORT SEQUENCE
+      sendMessage("ABORT COMPLETE");
+      currentState = PP1;
       broadcastState();
       break;
     }
 
-    case SAFE_UNLOADED: {
-      // MANUAL removed from here; only reachable via ELEVATED
-      static const String opts[] = { "LEVEL_CHECK" };
-      int r = promptUserSelect("SAFE_UNLOADED: Next? (LEVEL_CHECK)", opts, 1);
+    case PP1: {
+      static const String opts[] = { "PP2" };
+      // TODO, CLOSE VALVES
+      int r = promptUserSelect("PP1: Next? (PP2)", opts, 1);
       if (r == -1) break;
-      if (r == 1) currentState = LEVEL_CHECK;
+      if (r == 1) currentState = PP2;
+      broadcastState();
+      break;
+    }
+
+    case PP2: {
+      static const String opts[] = { "TEST_COMPLETE" };
+      // TODO, Post test purge sequence
+      int r = promptUserSelect("PP2: Next? (TEST_COMPLETE)", opts, 1);
+      if (r == -1) break;
+      if (r == 1) currentState = TEST_COMPLETE;
+      broadcastState();
+      break;
+    }
+
+    case TEST_COMPLETE: {
+      static const String opts[] = { "STARTUP" };
+      int r = promptUserSelect("TEST_COMPLETE: Next? (STARTUP)", opts, 1);
+      if (r == -1) break;
+      if (r == 1) currentState = STARTUP;
       broadcastState();
       break;
     }
