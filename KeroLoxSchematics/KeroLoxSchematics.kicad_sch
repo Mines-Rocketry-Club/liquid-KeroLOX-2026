@@ -9364,6 +9364,17 @@
 	)
 	(wire
 		(pts
+			(xy 40.64 104.14) (xy 67.31 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 255 0 255 1)
+		)
+		(uuid "e53ebf87-3139-4a64-bd01-cf93f0f544e7")
+	)
+	(wire
+		(pts
 			(xy 173.99 118.11) (xy 184.15 118.11)
 		)
 		(stroke
@@ -9553,6 +9564,17 @@
 			(color 0 0 0 1)
 		)
 		(uuid "f10ef354-fe2c-4329-a863-b7891f305f90")
+	)
+	(wire
+		(pts
+			(xy 67.31 99.06) (xy 67.31 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 255 0 255 1)
+		)
+		(uuid "f231c65f-4ceb-4edf-a3a7-1d445bae0a17")
 	)
 	(wire
 		(pts
@@ -9874,6 +9896,16 @@
 			(justify left bottom)
 		)
 		(uuid "7cd58a0e-4eef-4507-9470-6561629cd409")
+	)
+	(label "TO_LAPTOP"
+		(at 29.21 107.95 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "82328ac7-962a-48d9-9974-61e7084e1134")
 	)
 	(label "GND"
 		(at 328.93 162.56 0)
