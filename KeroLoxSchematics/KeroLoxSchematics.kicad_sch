@@ -6058,8 +6058,8 @@
 		(uuid 63861ae4-ecf9-4684-aa60-1167f17df091)
 	)
 	(rectangle
-		(start 501.65 170.18)
-		(end 558.8 214.63)
+		(start 515.62 170.18)
+		(end 572.77 214.63)
 		(stroke
 			(width 0)
 			(type default)
@@ -6071,7 +6071,7 @@
 	)
 	(rectangle
 		(start 299.72 90.17)
-		(end 568.96 289.56)
+		(end 499.11 289.56)
 		(stroke
 			(width 0)
 			(type default)
@@ -6275,7 +6275,7 @@
 	)
 	(text "Ignitor Control Board (ICB)"
 		(exclude_from_sim no)
-		(at 529.844 216.916 0)
+		(at 543.814 216.916 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6394,7 +6394,7 @@
 		(uuid "46919456-89db-48e7-be0d-06fe23be46d8")
 	)
 	(junction
-		(at 349.25 238.76)
+		(at 346.71 308.61)
 		(diameter 0)
 		(color 255 153 0 1)
 		(uuid "4730ba62-f57e-417d-9fbe-6dadd6c431be")
@@ -6436,7 +6436,7 @@
 		(uuid "64584c37-1fcc-429d-b55b-2da6fcf690ae")
 	)
 	(junction
-		(at 533.4 203.2)
+		(at 547.37 203.2)
 		(diameter 0)
 		(color 255 0 0 1)
 		(uuid "6461b25d-f84d-4b66-a490-5837904745b1")
@@ -6460,7 +6460,7 @@
 		(uuid "6d6f0204-eb17-4c56-a09b-9565992e4004")
 	)
 	(junction
-		(at 491.49 146.05)
+		(at 505.46 146.05)
 		(diameter 0)
 		(color 128 77 0 1)
 		(uuid "72167b1b-204c-42a3-ae08-6ea581aa7252")
@@ -6490,7 +6490,7 @@
 		(uuid "830df9bc-10d8-49ce-83e9-5b075aee1a7d")
 	)
 	(junction
-		(at 349.25 247.65)
+		(at 346.71 317.5)
 		(diameter 0)
 		(color 255 153 0 1)
 		(uuid "848a5bef-9d4b-4cac-88e6-79b467296ada")
@@ -6508,7 +6508,7 @@
 		(uuid "895c9036-0f21-46b1-a055-80ccc16c878d")
 	)
 	(junction
-		(at 533.4 181.61)
+		(at 547.37 181.61)
 		(diameter 0)
 		(color 255 0 0 1)
 		(uuid "8b05ac55-6aa2-423a-9866-ebd9d0973539")
@@ -6532,13 +6532,13 @@
 		(uuid "9b43484f-de60-47b9-95ef-ae5523321d37")
 	)
 	(junction
-		(at 491.49 156.21)
+		(at 505.46 156.21)
 		(diameter 0)
 		(color 0 0 0 1)
 		(uuid "a73af7d3-92ae-4d8f-9495-0c2a8137b0fc")
 	)
 	(junction
-		(at 349.25 257.81)
+		(at 346.71 327.66)
 		(diameter 0)
 		(color 255 153 0 1)
 		(uuid "aab760eb-4c00-42f5-b3c9-708a2331e317")
@@ -6694,7 +6694,7 @@
 		(uuid "debb6b14-a9a7-4bd4-a344-e5c84a7b7112")
 	)
 	(junction
-		(at 349.25 267.97)
+		(at 346.71 337.82)
 		(diameter 0)
 		(color 255 153 0 1)
 		(uuid "e086ba4d-a8ec-4f08-a02a-dee32624f5f5")
@@ -6760,7 +6760,7 @@
 	)
 	(wire
 		(pts
-			(xy 513.08 194.31) (xy 513.08 195.58)
+			(xy 527.05 194.31) (xy 527.05 195.58)
 		)
 		(stroke
 			(width 0)
@@ -6981,7 +6981,7 @@
 	)
 	(wire
 		(pts
-			(xy 434.34 250.19) (xy 450.85 250.19)
+			(xy 434.34 250.19) (xy 448.31 250.19)
 		)
 		(stroke
 			(width 0)
@@ -7003,7 +7003,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 189.23) (xy 533.4 184.15)
+			(xy 547.37 189.23) (xy 547.37 184.15)
 		)
 		(stroke
 			(width 0)
@@ -7047,7 +7047,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 181.61) (xy 530.86 181.61)
+			(xy 547.37 181.61) (xy 544.83 181.61)
 		)
 		(stroke
 			(width 0)
@@ -7080,7 +7080,7 @@
 	)
 	(wire
 		(pts
-			(xy 482.6 102.87) (xy 488.95 102.87)
+			(xy 482.6 102.87) (xy 502.92 102.87)
 		)
 		(stroke
 			(width 0)
@@ -7091,7 +7091,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 257.81) (xy 349.25 267.97)
+			(xy 346.71 327.66) (xy 346.71 337.82)
 		)
 		(stroke
 			(width 0)
@@ -7144,6 +7144,16 @@
 	)
 	(wire
 		(pts
+			(xy 386.08 337.82) (xy 386.08 267.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f425ac1-4ca6-4168-8091-a4206c151a76")
+	)
+	(wire
+		(pts
 			(xy 63.5 129.54) (xy 63.5 127)
 		)
 		(stroke
@@ -7186,7 +7196,7 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 181.61) (xy 523.24 181.61)
+			(xy 534.67 181.61) (xy 537.21 181.61)
 		)
 		(stroke
 			(width 0)
@@ -7316,7 +7326,7 @@
 	)
 	(wire
 		(pts
-			(xy 491.49 156.21) (xy 491.49 154.94)
+			(xy 505.46 156.21) (xy 505.46 154.94)
 		)
 		(stroke
 			(width 0)
@@ -7359,7 +7369,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 238.76) (xy 349.25 247.65)
+			(xy 346.71 308.61) (xy 346.71 317.5)
 		)
 		(stroke
 			(width 0)
@@ -7381,7 +7391,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 203.2) (xy 530.86 203.2)
+			(xy 547.37 203.2) (xy 544.83 203.2)
 		)
 		(stroke
 			(width 0)
@@ -7392,7 +7402,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 205.74) (xy 533.4 212.09)
+			(xy 547.37 205.74) (xy 547.37 212.09)
 		)
 		(stroke
 			(width 0)
@@ -7424,7 +7434,7 @@
 	)
 	(wire
 		(pts
-			(xy 520.7 203.2) (xy 523.24 203.2)
+			(xy 534.67 203.2) (xy 537.21 203.2)
 		)
 		(stroke
 			(width 0)
@@ -7457,7 +7467,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 186.69) (xy 365.76 186.69)
+			(xy 346.71 186.69) (xy 365.76 186.69)
 		)
 		(stroke
 			(width 0)
@@ -7511,7 +7521,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 181.61) (xy 534.67 181.61)
+			(xy 547.37 181.61) (xy 548.64 181.61)
 		)
 		(stroke
 			(width 0)
@@ -7693,6 +7703,16 @@
 	)
 	(wire
 		(pts
+			(xy 388.62 347.98) (xy 388.62 278.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "441b2d2c-fdfb-4029-8d85-12f34a99fd09")
+	)
+	(wire
+		(pts
 			(xy 396.24 214.63) (xy 435.61 214.63)
 		)
 		(stroke
@@ -7714,7 +7734,7 @@
 	)
 	(wire
 		(pts
-			(xy 534.67 203.2) (xy 533.4 203.2)
+			(xy 548.64 203.2) (xy 547.37 203.2)
 		)
 		(stroke
 			(width 0)
@@ -7736,7 +7756,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 247.65) (xy 363.22 247.65)
+			(xy 346.71 317.5) (xy 360.68 317.5)
 		)
 		(stroke
 			(width 0)
@@ -7747,7 +7767,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 134.62) (xy 509.27 134.62)
+			(xy 485.14 134.62) (xy 523.24 134.62)
 		)
 		(stroke
 			(width 0)
@@ -7824,7 +7844,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 138.43) (xy 537.21 138.43)
+			(xy 556.26 138.43) (xy 551.18 138.43)
 		)
 		(stroke
 			(width 0)
@@ -7855,7 +7875,7 @@
 	)
 	(wire
 		(pts
-			(xy 513.08 172.72) (xy 533.4 172.72)
+			(xy 527.05 172.72) (xy 547.37 172.72)
 		)
 		(stroke
 			(width 0)
@@ -7888,7 +7908,7 @@
 	)
 	(wire
 		(pts
-			(xy 474.98 161.29) (xy 491.49 161.29)
+			(xy 474.98 161.29) (xy 505.46 161.29)
 		)
 		(stroke
 			(width 0)
@@ -8036,7 +8056,7 @@
 	)
 	(polyline
 		(pts
-			(xy 501.65 191.77) (xy 558.8 191.77)
+			(xy 515.62 191.77) (xy 572.77 191.77)
 		)
 		(stroke
 			(width 0)
@@ -8089,7 +8109,7 @@
 	)
 	(wire
 		(pts
-			(xy 478.79 115.57) (xy 509.27 115.57)
+			(xy 478.79 115.57) (xy 523.24 115.57)
 		)
 		(stroke
 			(width 0)
@@ -8109,7 +8129,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 238.76) (xy 363.22 238.76)
+			(xy 346.71 308.61) (xy 360.68 308.61)
 		)
 		(stroke
 			(width 0)
@@ -8131,7 +8151,7 @@
 	)
 	(wire
 		(pts
-			(xy 491.49 170.18) (xy 491.49 168.91)
+			(xy 505.46 170.18) (xy 505.46 168.91)
 		)
 		(stroke
 			(width 0)
@@ -8153,7 +8173,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 194.31) (xy 533.4 203.2)
+			(xy 547.37 194.31) (xy 547.37 203.2)
 		)
 		(stroke
 			(width 0)
@@ -8175,7 +8195,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 140.97) (xy 537.21 140.97)
+			(xy 556.26 140.97) (xy 551.18 140.97)
 		)
 		(stroke
 			(width 0)
@@ -8185,7 +8205,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 119.38) (xy 537.21 119.38)
+			(xy 556.26 119.38) (xy 551.18 119.38)
 		)
 		(stroke
 			(width 0)
@@ -8411,7 +8431,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 113.03) (xy 509.27 113.03)
+			(xy 485.14 113.03) (xy 523.24 113.03)
 		)
 		(stroke
 			(width 0)
@@ -8466,6 +8486,16 @@
 	)
 	(wire
 		(pts
+			(xy 378.46 308.61) (xy 378.46 238.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6eef4e7c-5627-4668-8256-f5a30fe3587c")
+	)
+	(wire
+		(pts
 			(xy 85.09 135.89) (xy 85.09 107.95)
 		)
 		(stroke
@@ -8477,7 +8507,7 @@
 	)
 	(wire
 		(pts
-			(xy 434.34 257.81) (xy 450.85 257.81)
+			(xy 434.34 257.81) (xy 448.31 257.81)
 		)
 		(stroke
 			(width 0)
@@ -8519,7 +8549,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 186.69) (xy 349.25 238.76)
+			(xy 346.71 186.69) (xy 346.71 308.61)
 		)
 		(stroke
 			(width 0)
@@ -8540,7 +8570,7 @@
 	)
 	(wire
 		(pts
-			(xy 450.85 255.27) (xy 424.18 255.27)
+			(xy 448.31 255.27) (xy 424.18 255.27)
 		)
 		(stroke
 			(width 0)
@@ -8550,7 +8580,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 111.76) (xy 537.21 111.76)
+			(xy 556.26 111.76) (xy 551.18 111.76)
 		)
 		(stroke
 			(width 0)
@@ -8592,7 +8622,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 116.84) (xy 537.21 116.84)
+			(xy 556.26 116.84) (xy 551.18 116.84)
 		)
 		(stroke
 			(width 0)
@@ -8623,7 +8653,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 172.72) (xy 533.4 181.61)
+			(xy 547.37 172.72) (xy 547.37 181.61)
 		)
 		(stroke
 			(width 0)
@@ -8762,7 +8792,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 146.05) (xy 491.49 146.05)
+			(xy 532.13 146.05) (xy 505.46 146.05)
 		)
 		(stroke
 			(width 0)
@@ -8784,7 +8814,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 114.3) (xy 537.21 114.3)
+			(xy 556.26 114.3) (xy 551.18 114.3)
 		)
 		(stroke
 			(width 0)
@@ -8858,7 +8888,7 @@
 	)
 	(wire
 		(pts
-			(xy 491.49 146.05) (xy 477.52 146.05)
+			(xy 505.46 146.05) (xy 477.52 146.05)
 		)
 		(stroke
 			(width 0)
@@ -8879,7 +8909,7 @@
 	)
 	(wire
 		(pts
-			(xy 480.06 137.16) (xy 509.27 137.16)
+			(xy 480.06 137.16) (xy 523.24 137.16)
 		)
 		(stroke
 			(width 0)
@@ -8910,7 +8940,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 133.35) (xy 537.21 133.35)
+			(xy 556.26 133.35) (xy 551.18 133.35)
 		)
 		(stroke
 			(width 0)
@@ -8952,7 +8982,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 257.81) (xy 363.22 257.81)
+			(xy 346.71 327.66) (xy 360.68 327.66)
 		)
 		(stroke
 			(width 0)
@@ -8985,7 +9015,7 @@
 	)
 	(wire
 		(pts
-			(xy 419.1 123.19) (xy 488.95 123.19)
+			(xy 419.1 123.19) (xy 502.92 123.19)
 		)
 		(stroke
 			(width 0)
@@ -9027,7 +9057,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 278.13) (xy 363.22 278.13)
+			(xy 346.71 347.98) (xy 360.68 347.98)
 		)
 		(stroke
 			(width 0)
@@ -9038,7 +9068,7 @@
 	)
 	(wire
 		(pts
-			(xy 377.19 267.97) (xy 386.08 267.97)
+			(xy 374.65 337.82) (xy 386.08 337.82)
 		)
 		(stroke
 			(width 0)
@@ -9080,7 +9110,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 170.18) (xy 491.49 170.18)
+			(xy 485.14 170.18) (xy 505.46 170.18)
 		)
 		(stroke
 			(width 0)
@@ -9155,7 +9185,17 @@
 	)
 	(wire
 		(pts
-			(xy 491.49 156.21) (xy 518.16 156.21)
+			(xy 381 317.5) (xy 381 247.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "992b014d-e576-4e74-8a5d-66ff1081f855")
+	)
+	(wire
+		(pts
+			(xy 505.46 156.21) (xy 532.13 156.21)
 		)
 		(stroke
 			(width 0)
@@ -9166,7 +9206,7 @@
 	)
 	(wire
 		(pts
-			(xy 474.98 120.65) (xy 509.27 120.65)
+			(xy 474.98 120.65) (xy 523.24 120.65)
 		)
 		(stroke
 			(width 0)
@@ -9177,7 +9217,7 @@
 	)
 	(wire
 		(pts
-			(xy 533.4 184.15) (xy 534.67 184.15)
+			(xy 547.37 184.15) (xy 548.64 184.15)
 		)
 		(stroke
 			(width 0)
@@ -9219,7 +9259,7 @@
 	)
 	(wire
 		(pts
-			(xy 491.49 146.05) (xy 491.49 147.32)
+			(xy 505.46 146.05) (xy 505.46 147.32)
 		)
 		(stroke
 			(width 0)
@@ -9294,7 +9334,7 @@
 	)
 	(wire
 		(pts
-			(xy 482.6 110.49) (xy 509.27 110.49)
+			(xy 482.6 110.49) (xy 523.24 110.49)
 		)
 		(stroke
 			(width 0)
@@ -9305,7 +9345,7 @@
 	)
 	(wire
 		(pts
-			(xy 477.52 139.7) (xy 509.27 139.7)
+			(xy 477.52 139.7) (xy 523.24 139.7)
 		)
 		(stroke
 			(width 0)
@@ -9326,7 +9366,7 @@
 	)
 	(wire
 		(pts
-			(xy 424.18 118.11) (xy 509.27 118.11)
+			(xy 424.18 118.11) (xy 523.24 118.11)
 		)
 		(stroke
 			(width 0)
@@ -9442,7 +9482,7 @@
 	)
 	(wire
 		(pts
-			(xy 429.26 262.89) (xy 450.85 262.89)
+			(xy 429.26 262.89) (xy 448.31 262.89)
 		)
 		(stroke
 			(width 0)
@@ -9452,7 +9492,7 @@
 	)
 	(wire
 		(pts
-			(xy 500.38 189.23) (xy 533.4 189.23)
+			(xy 514.35 189.23) (xy 547.37 189.23)
 		)
 		(stroke
 			(width 0)
@@ -9550,7 +9590,7 @@
 	)
 	(wire
 		(pts
-			(xy 513.08 194.31) (xy 533.4 194.31)
+			(xy 527.05 194.31) (xy 547.37 194.31)
 		)
 		(stroke
 			(width 0)
@@ -9647,6 +9687,16 @@
 	)
 	(wire
 		(pts
+			(xy 383.54 327.66) (xy 383.54 257.81)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9635150-5700-475a-abab-e054624e8878")
+	)
+	(wire
+		(pts
 			(xy 383.54 257.81) (xy 383.54 222.25)
 		)
 		(stroke
@@ -9678,7 +9728,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 247.65) (xy 349.25 257.81)
+			(xy 346.71 317.5) (xy 346.71 327.66)
 		)
 		(stroke
 			(width 0)
@@ -9720,7 +9770,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 156.21) (xy 518.16 154.94)
+			(xy 532.13 156.21) (xy 532.13 154.94)
 		)
 		(stroke
 			(width 0)
@@ -9742,7 +9792,7 @@
 	)
 	(wire
 		(pts
-			(xy 482.6 125.73) (xy 488.95 125.73)
+			(xy 482.6 125.73) (xy 502.92 125.73)
 		)
 		(stroke
 			(width 0)
@@ -9795,7 +9845,7 @@
 	)
 	(wire
 		(pts
-			(xy 450.85 260.35) (xy 426.72 260.35)
+			(xy 448.31 260.35) (xy 426.72 260.35)
 		)
 		(stroke
 			(width 0)
@@ -9805,7 +9855,7 @@
 	)
 	(wire
 		(pts
-			(xy 534.67 205.74) (xy 533.4 205.74)
+			(xy 548.64 205.74) (xy 547.37 205.74)
 		)
 		(stroke
 			(width 0)
@@ -9870,7 +9920,7 @@
 	)
 	(wire
 		(pts
-			(xy 500.38 210.82) (xy 500.38 189.23)
+			(xy 514.35 210.82) (xy 514.35 189.23)
 		)
 		(stroke
 			(width 0)
@@ -9881,7 +9931,7 @@
 	)
 	(wire
 		(pts
-			(xy 481.33 100.33) (xy 488.95 100.33)
+			(xy 481.33 100.33) (xy 502.92 100.33)
 		)
 		(stroke
 			(width 0)
@@ -9902,7 +9952,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 267.97) (xy 363.22 267.97)
+			(xy 346.71 337.82) (xy 360.68 337.82)
 		)
 		(stroke
 			(width 0)
@@ -9966,7 +10016,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 156.21) (xy 491.49 156.21)
+			(xy 485.14 156.21) (xy 505.46 156.21)
 		)
 		(stroke
 			(width 0)
@@ -10029,7 +10079,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 105.41) (xy 488.95 105.41)
+			(xy 485.14 105.41) (xy 502.92 105.41)
 		)
 		(stroke
 			(width 0)
@@ -10040,7 +10090,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 128.27) (xy 488.95 128.27)
+			(xy 485.14 128.27) (xy 502.92 128.27)
 		)
 		(stroke
 			(width 0)
@@ -10136,7 +10186,7 @@
 	)
 	(wire
 		(pts
-			(xy 497.84 204.47) (xy 497.84 181.61)
+			(xy 511.81 204.47) (xy 511.81 181.61)
 		)
 		(stroke
 			(width 0)
@@ -10169,7 +10219,7 @@
 	)
 	(wire
 		(pts
-			(xy 474.98 142.24) (xy 509.27 142.24)
+			(xy 474.98 142.24) (xy 523.24 142.24)
 		)
 		(stroke
 			(width 0)
@@ -10180,7 +10230,7 @@
 	)
 	(wire
 		(pts
-			(xy 482.6 132.08) (xy 509.27 132.08)
+			(xy 482.6 132.08) (xy 523.24 132.08)
 		)
 		(stroke
 			(width 0)
@@ -10191,7 +10241,7 @@
 	)
 	(wire
 		(pts
-			(xy 542.29 135.89) (xy 537.21 135.89)
+			(xy 556.26 135.89) (xy 551.18 135.89)
 		)
 		(stroke
 			(width 0)
@@ -10201,7 +10251,7 @@
 	)
 	(wire
 		(pts
-			(xy 377.19 238.76) (xy 378.46 238.76)
+			(xy 374.65 308.61) (xy 378.46 308.61)
 		)
 		(stroke
 			(width 0)
@@ -10222,7 +10272,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 210.82) (xy 500.38 210.82)
+			(xy 485.14 210.82) (xy 514.35 210.82)
 		)
 		(stroke
 			(width 0)
@@ -10288,7 +10338,7 @@
 	)
 	(wire
 		(pts
-			(xy 513.08 172.72) (xy 513.08 173.99)
+			(xy 527.05 172.72) (xy 527.05 173.99)
 		)
 		(stroke
 			(width 0)
@@ -10309,7 +10359,7 @@
 	)
 	(wire
 		(pts
-			(xy 499.11 205.74) (xy 499.11 203.2)
+			(xy 513.08 205.74) (xy 513.08 203.2)
 		)
 		(stroke
 			(width 0)
@@ -10429,7 +10479,7 @@
 	)
 	(wire
 		(pts
-			(xy 349.25 267.97) (xy 349.25 278.13)
+			(xy 346.71 337.82) (xy 346.71 347.98)
 		)
 		(stroke
 			(width 0)
@@ -10495,7 +10545,7 @@
 	)
 	(wire
 		(pts
-			(xy 377.19 247.65) (xy 381 247.65)
+			(xy 374.65 317.5) (xy 381 317.5)
 		)
 		(stroke
 			(width 0)
@@ -10525,7 +10575,7 @@
 	)
 	(wire
 		(pts
-			(xy 473.71 204.47) (xy 497.84 204.47)
+			(xy 473.71 204.47) (xy 511.81 204.47)
 		)
 		(stroke
 			(width 0)
@@ -10568,7 +10618,7 @@
 	)
 	(wire
 		(pts
-			(xy 377.19 278.13) (xy 388.62 278.13)
+			(xy 374.65 347.98) (xy 388.62 347.98)
 		)
 		(stroke
 			(width 0)
@@ -10588,7 +10638,7 @@
 	)
 	(wire
 		(pts
-			(xy 472.44 205.74) (xy 499.11 205.74)
+			(xy 472.44 205.74) (xy 513.08 205.74)
 		)
 		(stroke
 			(width 0)
@@ -10599,7 +10649,7 @@
 	)
 	(wire
 		(pts
-			(xy 444.5 252.73) (xy 450.85 252.73)
+			(xy 444.5 252.73) (xy 448.31 252.73)
 		)
 		(stroke
 			(width 0)
@@ -10675,7 +10725,7 @@
 	)
 	(wire
 		(pts
-			(xy 377.19 257.81) (xy 383.54 257.81)
+			(xy 374.65 327.66) (xy 383.54 327.66)
 		)
 		(stroke
 			(width 0)
@@ -10696,7 +10746,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 147.32) (xy 518.16 146.05)
+			(xy 532.13 147.32) (xy 532.13 146.05)
 		)
 		(stroke
 			(width 0)
@@ -10760,7 +10810,7 @@
 	)
 	(wire
 		(pts
-			(xy 485.14 212.09) (xy 533.4 212.09)
+			(xy 485.14 212.09) (xy 547.37 212.09)
 		)
 		(stroke
 			(width 0)
@@ -10771,7 +10821,7 @@
 	)
 	(wire
 		(pts
-			(xy 499.11 203.2) (xy 505.46 203.2)
+			(xy 513.08 203.2) (xy 519.43 203.2)
 		)
 		(stroke
 			(width 0)
@@ -10837,7 +10887,7 @@
 	)
 	(wire
 		(pts
-			(xy 497.84 181.61) (xy 505.46 181.61)
+			(xy 511.81 181.61) (xy 519.43 181.61)
 		)
 		(stroke
 			(width 0)
@@ -11034,7 +11084,7 @@
 	)
 	(symbol
 		(lib_id "Regulator_Linear:LM337_TO220")
-		(at 513.08 181.61 0)
+		(at 527.05 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11043,7 +11093,7 @@
 		(fields_autoplaced yes)
 		(uuid "1c5f8608-692d-4fa3-9387-f28b591b14a3")
 		(property "Reference" "U7"
-			(at 513.08 185.42 0)
+			(at 527.05 185.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11051,7 +11101,7 @@
 			)
 		)
 		(property "Value" "LM338_TO220"
-			(at 513.08 187.96 0)
+			(at 527.05 187.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11059,7 +11109,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
-			(at 513.08 186.69 0)
+			(at 527.05 186.69 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11069,7 +11119,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm337-n.pdf"
-			(at 513.08 181.61 0)
+			(at 527.05 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11078,7 +11128,7 @@
 			)
 		)
 		(property "Description" "Negative 1.5A 35V Adjustable Linear Regulator, TO-220"
-			(at 513.08 181.61 0)
+			(at 527.05 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11422,7 +11472,7 @@
 	)
 	(symbol
 		(lib_id "Motor:Motor_Servo")
-		(at 496.57 102.87 0)
+		(at 510.54 102.87 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11430,7 +11480,7 @@
 		(dnp no)
 		(uuid "299e3f51-e733-4a01-bdcb-e0888a40e54e")
 		(property "Reference" "M1"
-			(at 505.46 101.1668 0)
+			(at 519.43 101.1668 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11439,7 +11489,7 @@
 			)
 		)
 		(property "Value" "LOX_Injector"
-			(at 505.46 103.7068 0)
+			(at 519.43 103.7068 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11448,7 +11498,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 496.57 107.696 0)
+			(at 510.54 107.696 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11457,7 +11507,7 @@
 			)
 		)
 		(property "Datasheet" "http://forums.parallax.com/uploads/attachments/46831/74481.png"
-			(at 496.57 107.696 0)
+			(at 510.54 107.696 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11466,7 +11516,7 @@
 			)
 		)
 		(property "Description" "Servo Motor (Futaba, HiTec, JR connector)"
-			(at 496.57 102.87 0)
+			(at 510.54 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11561,7 +11611,7 @@
 	)
 	(symbol
 		(lib_id "Regulator_Linear:LM337_TO220")
-		(at 513.08 203.2 0)
+		(at 527.05 203.2 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11570,7 +11620,7 @@
 		(fields_autoplaced yes)
 		(uuid "379fbc3d-a3fe-4669-8d67-ef7a9df4edc3")
 		(property "Reference" "U8"
-			(at 513.08 207.01 0)
+			(at 527.05 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11578,7 +11628,7 @@
 			)
 		)
 		(property "Value" "LM338_TO220"
-			(at 513.08 209.55 0)
+			(at 527.05 209.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11586,7 +11636,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_THT:TO-220-3_Vertical"
-			(at 513.08 208.28 0)
+			(at 527.05 208.28 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11596,7 +11646,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/lm337-n.pdf"
-			(at 513.08 203.2 0)
+			(at 527.05 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11605,7 +11655,7 @@
 			)
 		)
 		(property "Description" "Negative 1.5A 35V Adjustable Linear Regulator, TO-220"
-			(at 513.08 203.2 0)
+			(at 527.05 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11633,7 +11683,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 491.49 165.1 0)
+		(at 505.46 165.1 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11642,7 +11692,7 @@
 		(fields_autoplaced yes)
 		(uuid "3ad569b2-3a8a-4ce3-8322-69dfd4f4d474")
 		(property "Reference" "R5"
-			(at 494.03 163.8299 0)
+			(at 508 163.8299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11651,7 +11701,7 @@
 			)
 		)
 		(property "Value" "Kero_Injector_Valve"
-			(at 494.03 166.3699 0)
+			(at 508 166.3699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11660,7 +11710,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 489.712 165.1 90)
+			(at 503.682 165.1 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11669,7 +11719,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 491.49 165.1 0)
+			(at 505.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11678,7 +11728,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 491.49 165.1 0)
+			(at 505.46 165.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11841,7 +11891,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 518.16 151.13 0)
+		(at 532.13 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11850,7 +11900,7 @@
 		(fields_autoplaced yes)
 		(uuid "50954123-686b-4623-ac60-8eddad3e14ff")
 		(property "Reference" "R2"
-			(at 520.7 149.8599 0)
+			(at 534.67 149.8599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11859,7 +11909,7 @@
 			)
 		)
 		(property "Value" "Kero Pressurizing Valve"
-			(at 520.7 152.3999 0)
+			(at 534.67 152.3999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11868,7 +11918,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 516.382 151.13 90)
+			(at 530.352 151.13 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11877,7 +11927,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 518.16 151.13 0)
+			(at 532.13 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11886,7 +11936,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 518.16 151.13 0)
+			(at 532.13 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12209,7 +12259,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 539.75 203.2 0)
+		(at 553.72 203.2 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12218,7 +12268,7 @@
 		(fields_autoplaced yes)
 		(uuid "59a73e22-fd57-4f3a-a07f-f58db34cd878")
 		(property "Reference" "J2"
-			(at 542.29 203.1999 0)
+			(at 556.26 203.1999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12227,7 +12277,7 @@
 			)
 		)
 		(property "Value" "Ignitor2_Output"
-			(at 542.29 205.7399 0)
+			(at 556.26 205.7399 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12236,7 +12286,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 539.75 203.2 0)
+			(at 553.72 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12245,7 +12295,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 539.75 203.2 0)
+			(at 553.72 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12254,7 +12304,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 539.75 203.2 0)
+			(at 553.72 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12437,7 +12487,7 @@
 	)
 	(symbol
 		(lib_id "Motor:Motor_Servo")
-		(at 496.57 125.73 0)
+		(at 510.54 125.73 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12445,7 +12495,7 @@
 		(dnp no)
 		(uuid "5e706c4b-9645-4bca-9d59-9f2ead7bf45d")
 		(property "Reference" "M3"
-			(at 505.46 124.0268 0)
+			(at 519.43 124.0268 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12454,7 +12504,7 @@
 			)
 		)
 		(property "Value" "LOX_Vent_Valve"
-			(at 505.46 126.5668 0)
+			(at 519.43 126.5668 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12463,7 +12513,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 496.57 130.556 0)
+			(at 510.54 130.556 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12472,7 +12522,7 @@
 			)
 		)
 		(property "Datasheet" "http://forums.parallax.com/uploads/attachments/46831/74481.png"
-			(at 496.57 130.556 0)
+			(at 510.54 130.556 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12481,7 +12531,7 @@
 			)
 		)
 		(property "Description" "Servo Motor (Futaba, HiTec, JR connector)"
-			(at 496.57 125.73 0)
+			(at 510.54 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12509,7 +12559,7 @@
 	)
 	(symbol
 		(lib_id "KeroLox_Stepper:NEMA-17_Stepper")
-		(at 552.45 115.57 0)
+		(at 566.42 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12518,7 +12568,7 @@
 		(fields_autoplaced yes)
 		(uuid "66dabf74-3703-4069-9b3e-721fea3697c8")
 		(property "Reference" "U27"
-			(at 560.07 114.2999 0)
+			(at 574.04 114.2999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12527,7 +12577,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 560.07 116.8399 0)
+			(at 574.04 116.8399 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12536,7 +12586,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 552.45 115.57 0)
+			(at 566.42 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12545,7 +12595,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 552.45 115.57 0)
+			(at 566.42 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12554,7 +12604,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 552.45 115.57 0)
+			(at 566.42 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12585,7 +12635,7 @@
 	)
 	(symbol
 		(lib_id "KeroLoxPT:PressureTransducer")
-		(at 370.84 257.81 90)
+		(at 368.3 327.66 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12594,7 +12644,7 @@
 		(fields_autoplaced yes)
 		(uuid "6889ccd5-3e19-46f0-9e82-82664428bc41")
 		(property "Reference" "U11"
-			(at 370.205 251.46 90)
+			(at 367.665 321.31 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12602,7 +12652,7 @@
 			)
 		)
 		(property "Value" "LOX_Inj_Line_PT"
-			(at 370.205 254 90)
+			(at 367.665 323.85 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12610,7 +12660,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 257.81 0)
+			(at 368.3 327.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12619,7 +12669,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 257.81 0)
+			(at 368.3 327.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12628,7 +12678,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 370.84 257.81 0)
+			(at 368.3 327.66 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12980,7 +13030,7 @@
 	)
 	(symbol
 		(lib_id "KeroLoxPT:PressureTransducer")
-		(at 370.84 267.97 90)
+		(at 368.3 337.82 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -12989,7 +13039,7 @@
 		(fields_autoplaced yes)
 		(uuid "72c952bc-f6e5-4ecd-8821-9a3209212677")
 		(property "Reference" "U12"
-			(at 370.205 261.62 90)
+			(at 367.665 331.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12997,7 +13047,7 @@
 			)
 		)
 		(property "Value" "Kero_Inj_Line_PT"
-			(at 370.205 264.16 90)
+			(at 367.665 334.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13005,7 +13055,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 267.97 0)
+			(at 368.3 337.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13014,7 +13064,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 267.97 0)
+			(at 368.3 337.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13023,7 +13073,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 370.84 267.97 0)
+			(at 368.3 337.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13208,7 +13258,7 @@
 	)
 	(symbol
 		(lib_id "KeroLoxPT:PressureTransducer")
-		(at 370.84 278.13 90)
+		(at 368.3 347.98 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13217,7 +13267,7 @@
 		(fields_autoplaced yes)
 		(uuid "7ed059d0-12ed-4944-9dfe-a415896b8e6e")
 		(property "Reference" "U13"
-			(at 370.205 271.78 90)
+			(at 367.665 341.63 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13225,7 +13275,7 @@
 			)
 		)
 		(property "Value" "Combusion_Chamber_PT"
-			(at 370.205 274.32 90)
+			(at 367.665 344.17 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13233,7 +13283,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 278.13 0)
+			(at 368.3 347.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13242,7 +13292,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 278.13 0)
+			(at 368.3 347.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13251,7 +13301,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 370.84 278.13 0)
+			(at 368.3 347.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13276,7 +13326,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 539.75 181.61 0)
+		(at 553.72 181.61 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13285,7 +13335,7 @@
 		(fields_autoplaced yes)
 		(uuid "80c15df1-e59b-4a49-9d64-2c66779737fa")
 		(property "Reference" "J1"
-			(at 542.29 181.6099 0)
+			(at 556.26 181.6099 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13294,7 +13344,7 @@
 			)
 		)
 		(property "Value" "Ignitor1_Output"
-			(at 542.29 184.1499 0)
+			(at 556.26 184.1499 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13303,7 +13353,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 539.75 181.61 0)
+			(at 553.72 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13312,7 +13362,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 539.75 181.61 0)
+			(at 553.72 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13321,7 +13371,7 @@
 			)
 		)
 		(property "Description" "Generic screw terminal, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 539.75 181.61 0)
+			(at 553.72 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13555,7 +13605,7 @@
 	)
 	(symbol
 		(lib_id "KeroLoxPT:PressureTransducer")
-		(at 370.84 238.76 90)
+		(at 368.3 308.61 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13564,7 +13614,7 @@
 		(fields_autoplaced yes)
 		(uuid "9ae3f720-1f55-4064-8c86-c82205995da4")
 		(property "Reference" "U9"
-			(at 370.205 232.41 90)
+			(at 367.665 302.26 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13572,7 +13622,7 @@
 			)
 		)
 		(property "Value" "LOX_Tank_PT"
-			(at 370.205 234.95 90)
+			(at 367.665 304.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13580,7 +13630,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 238.76 0)
+			(at 368.3 308.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13589,7 +13639,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 238.76 0)
+			(at 368.3 308.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13598,7 +13648,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 370.84 238.76 0)
+			(at 368.3 308.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13859,7 +13909,7 @@
 	)
 	(symbol
 		(lib_id "KeroLox_Stepper:DM332T_Driver")
-		(at 523.24 115.57 0)
+		(at 537.21 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -13868,7 +13918,7 @@
 		(fields_autoplaced yes)
 		(uuid "afb0d88b-1517-4721-aa1c-1acfcb686dcd")
 		(property "Reference" "U25"
-			(at 523.24 104.14 0)
+			(at 537.21 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13876,7 +13926,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 523.24 106.68 0)
+			(at 537.21 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13884,7 +13934,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 523.24 115.57 0)
+			(at 537.21 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13893,7 +13943,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 523.24 115.57 0)
+			(at 537.21 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13902,7 +13952,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 523.24 115.57 0)
+			(at 537.21 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14425,7 +14475,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 527.05 203.2 90)
+		(at 541.02 203.2 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14434,7 +14484,7 @@
 		(dnp no)
 		(uuid "cf00a383-fbd4-49b7-b70e-5ef65a76e76e")
 		(property "Reference" "R7"
-			(at 527.05 209.55 90)
+			(at 541.02 209.55 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14442,7 +14492,7 @@
 			)
 		)
 		(property "Value" "1 OHM 2W"
-			(at 527.05 207.01 90)
+			(at 541.02 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14450,7 +14500,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 527.05 201.422 90)
+			(at 541.02 201.422 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14459,7 +14509,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 527.05 203.2 0)
+			(at 541.02 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14468,7 +14518,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 527.05 203.2 0)
+			(at 541.02 203.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14493,7 +14543,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 527.05 181.61 90)
+		(at 541.02 181.61 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -14502,7 +14552,7 @@
 		(dnp no)
 		(uuid "d2635838-493a-4933-a66f-3c97d0192980")
 		(property "Reference" "R6"
-			(at 527.05 187.96 90)
+			(at 541.02 187.96 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14510,7 +14560,7 @@
 			)
 		)
 		(property "Value" "1 OHM 2W"
-			(at 527.05 185.42 90)
+			(at 541.02 185.42 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14518,7 +14568,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 527.05 179.832 90)
+			(at 541.02 179.832 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14527,7 +14577,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 527.05 181.61 0)
+			(at 541.02 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14536,7 +14586,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 527.05 181.61 0)
+			(at 541.02 181.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14705,7 +14755,7 @@
 	(symbol
 		(lib_name "NEMA-17_Stepper_1")
 		(lib_id "KeroLox_Stepper:NEMA-17_Stepper")
-		(at 552.45 137.16 0)
+		(at 566.42 137.16 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14714,7 +14764,7 @@
 		(fields_autoplaced yes)
 		(uuid "da922ce7-26cd-4ec9-849b-68310a5ca1dc")
 		(property "Reference" "U28"
-			(at 560.07 135.8899 0)
+			(at 574.04 135.8899 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14723,7 +14773,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 560.07 138.4299 0)
+			(at 574.04 138.4299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14732,7 +14782,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 552.45 137.16 0)
+			(at 566.42 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14741,7 +14791,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 552.45 137.16 0)
+			(at 566.42 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14750,7 +14800,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 552.45 137.16 0)
+			(at 566.42 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14849,7 +14899,7 @@
 	(symbol
 		(lib_name "DM332T_Driver_1")
 		(lib_id "KeroLox_Stepper:DM332T_Driver")
-		(at 523.24 137.16 0)
+		(at 537.21 137.16 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14858,7 +14908,7 @@
 		(fields_autoplaced yes)
 		(uuid "e098559d-1ee2-4119-8f21-8ecc31319e72")
 		(property "Reference" "U26"
-			(at 523.24 125.73 0)
+			(at 537.21 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14866,7 +14916,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 523.24 128.27 0)
+			(at 537.21 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14874,7 +14924,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 523.24 137.16 0)
+			(at 537.21 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14883,7 +14933,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 523.24 137.16 0)
+			(at 537.21 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14892,7 +14942,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 523.24 137.16 0)
+			(at 537.21 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14938,7 +14988,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 491.49 151.13 0)
+		(at 505.46 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -14947,7 +14997,7 @@
 		(fields_autoplaced yes)
 		(uuid "e122d0dd-99fa-4be2-91e0-6e8b59f10536")
 		(property "Reference" "R1"
-			(at 494.03 149.8599 0)
+			(at 508 149.8599 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14956,7 +15006,7 @@
 			)
 		)
 		(property "Value" "LOX Pressurizing Valve"
-			(at 494.03 152.3999 0)
+			(at 508 152.3999 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14965,7 +15015,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 489.712 151.13 90)
+			(at 503.682 151.13 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14974,7 +15024,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 491.49 151.13 0)
+			(at 505.46 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14983,7 +15033,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 491.49 151.13 0)
+			(at 505.46 151.13 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15008,7 +15058,7 @@
 	)
 	(symbol
 		(lib_id "KeroLoxPT:PressureTransducer")
-		(at 370.84 247.65 90)
+		(at 368.3 317.5 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15017,7 +15067,7 @@
 		(fields_autoplaced yes)
 		(uuid "e83eb148-00a0-4725-a3c8-559fd832afa5")
 		(property "Reference" "U10"
-			(at 370.205 241.3 90)
+			(at 367.665 311.15 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15025,7 +15075,7 @@
 			)
 		)
 		(property "Value" "Kero_Tank_PT"
-			(at 370.205 243.84 90)
+			(at 367.665 313.69 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15033,7 +15083,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 370.84 247.65 0)
+			(at 368.3 317.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15042,7 +15092,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 370.84 247.65 0)
+			(at 368.3 317.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15051,7 +15101,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 370.84 247.65 0)
+			(at 368.3 317.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15160,7 +15210,7 @@
 	)
 	(symbol
 		(lib_id "KeroLox_SDCard:SD_Card")
-		(at 472.44 254 0)
+		(at 469.9 254 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -15169,7 +15219,7 @@
 		(fields_autoplaced yes)
 		(uuid "eb891b3a-6cc0-41e2-8dc2-3d592ef8b8f0")
 		(property "Reference" "U18"
-			(at 495.3 252.7299 0)
+			(at 492.76 252.7299 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15178,7 +15228,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 495.3 255.2699 0)
+			(at 492.76 255.2699 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15187,7 +15237,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 472.44 254 0)
+			(at 469.9 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15196,7 +15246,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 472.44 254 0)
+			(at 469.9 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -15205,7 +15255,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 472.44 254 0)
+			(at 469.9 254 0)
 			(effects
 				(font
 					(size 1.27 1.27)
