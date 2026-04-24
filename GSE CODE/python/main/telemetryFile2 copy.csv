@@ -1,0 +1,25 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww29200\viewh16060\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin,is_output\
+thrust,Thrust,counts,-1000000,1000000,-500000,500000,HX711\
+LOX_level,Fluid,kg,-1000000,1000000,-500000,500000,HX711\
+LOX_Tank_PT,Tank,psi,100,750,150,675,U9,1.22249,-250.61125,A0,0\
+Kero_Tank_PT,Tank,psi,100,750,150,675,U10,1.22249,-250.61125,A1,0\
+Chamber_PT,Thrust,psi,150,500,200,400,U13,1.22249,-250.61125,A4,0\
+Sys_Volt,GSE,V,24,31,25,30,R4,0.0342131,0,A5,0\
+\pard\pardeftab720\partightenfactor0
+\cf0 \expnd0\expndtw0\kerning0
+IgniterCommand,GSE,position,1,1,0,0,NA,1,0,0,1\
+IgniterCommand2,GSE,position,1,1,0,0,NA,1,0,1,1\
+LOX_inj_servo,GSE,position,1,1,0,0,NA,1,0,2,1\
+LOX_dump,GSE,position,1,1,0,0,NA,1,0,3,1\
+LOX_vent,GSE,position,0,0,1,1,NA,1,0,4,1\
+Kero_vent,GSE,position,0,0,1,1,NA,1,0,5,1\
+Pressure_valves,GSE,position,1,1,0,0,NA,1,0,6,1\
+Kero_inj_valve,GSE,position,1,1,0,0,NA,1,0,7,1\kerning1\expnd0\expndtw0 \
+}
