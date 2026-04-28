@@ -1,9 +1,12 @@
 name,owner,unit,low_red,high_red,low_yellow,high_yellow,partnumber,scale,offset,pin,is_output
 thrust,Thrust,counts,-1000000,1000000,-500000,500000,HX711
 LOX_level,Fluid,kg,-1000000,1000000,-500000,500000,HX711
-TempC,Propulsion,°C,-40,120,0,90,LM35,.2,-20,A2, 0
-PressurePSI,Tank,psi,0,300,20,250,PT-300,0.73,0,A1, 0
-Fuel_Inj_Valve, GSE, T/F, -1, 1, -.5, .5, false, 1, 1, 5, 1
-TankPressure,GSE,psi,0,500,50,450,PT-001,0.122,0,A0,0
-IgniterCommand,GSE,state,0,1,0,1,NA,1,0,7,1
-MainValve,GSE,state,0,1,0,1,NA,1,0,8,true
+LOX_Tank_PT,Tank,psi,100,750,150,675,U9,1.3,-234,A1,0
+Chamber_PT,Thrust,psi,150,500,200,400,U13,1.3347,-257.6,A3,0
+Sys_Volt,GSE,V,24,31,25,30,R4,0.0342131,0,A5,0
+IgniterCommand,GSE,position,1,1,0,0,NA,1,0,0,1
+IgniterCommand2,GSE,position,1,1,0,0,NA,1,0,1,1
+LOX_inj_servo,GSE,position,1,1,0,0,NA,1,0,2,1
+LOX_dump,GSE,position,1,1,0,0,NA,1,0,3,1
+LOX_vent,GSE,position,0,0,1,1,NA,1,0,4,1
+Pressure_valves,GSE,position,1,1,0,0,NA,1,0,6,1

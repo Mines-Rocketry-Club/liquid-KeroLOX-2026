@@ -7,8 +7,11 @@ import socket
 import serial
 from serial.tools import list_ports
 
-BAUD = 115200
+BAUD = 57600
 RETRY_DELAY = 2.0
+
+# If END hasn't arrived within this many seconds, give up and allow next GET.
+SNAPSHOT_TIMEOUT_S = 3.0
 
 
 def find_arduino_port() -> Optional[str]:
@@ -61,6 +64,7 @@ class ArduinoComms:
         self.telemetry_interval_ms: Optional[float] = None
 
         self._waiting_for_snapshot: bool = False
+        self._snapshot_sent_time: Optional[float] = None  # when GET was sent
         self._config_sent: bool = False
 
         self._net_host: str = "192.168.88.254"
@@ -112,8 +116,18 @@ class ArduinoComms:
         if not getattr(self, "net_ok", True):
             return
 
+        # If we're waiting for a snapshot, check if it has timed out.
         if self._waiting_for_snapshot:
-            return
+            elapsed = time.time() - (self._snapshot_sent_time or 0.0)
+            if elapsed < SNAPSHOT_TIMEOUT_S:
+                return  # still within timeout, keep waiting
+            # Timed out — reset and send a fresh GET
+            self.on_log(
+                f"WARNING: GET timed out ({elapsed:.1f}s, no END received). "
+                "Resetting snapshot state and retrying."
+            )
+            self._waiting_for_snapshot = False
+            self._snapshot_sent_time = None
 
         try:
             now = time.time()
@@ -123,6 +137,7 @@ class ArduinoComms:
 
             self._start_ping()
             self._waiting_for_snapshot = True
+            self._snapshot_sent_time = now  # record when GET was sent
             self.ser.write(b"GET\n")
         except Exception as e:
             self.on_log(f"Error sending GET: {e}")
@@ -178,6 +193,9 @@ class ArduinoComms:
                     time.sleep(2)
                     self.on_log(f"Connected to Arduino on {port} @ {BAUD} baud.")
                     self._config_sent = False
+                    # Reset snapshot state on reconnect
+                    self._waiting_for_snapshot = False
+                    self._snapshot_sent_time = None
 
                     self.reader_thread = threading.Thread(target=self._reader, daemon=True)
                     self.reader_thread.start()
@@ -201,6 +219,8 @@ class ArduinoComms:
                 pass
         self.ser = None
         self._config_sent = False
+        self._waiting_for_snapshot = False
+        self._snapshot_sent_time = None
         self.on_log("Serial connection lost. Will retry...")
 
     def _send_csv_config(self):
@@ -264,6 +284,7 @@ class ArduinoComms:
 
         if key == "END":
             self._waiting_for_snapshot = False
+            self._snapshot_sent_time = None
             if self.on_snapshot:
                 self.on_snapshot()
             return

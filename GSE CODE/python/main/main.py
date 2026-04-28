@@ -2,6 +2,7 @@ import csv
 import threading
 import time
 import subprocess
+from collections import deque
 from pathlib import Path
 from typing import Dict, List
 
@@ -16,22 +17,86 @@ LOAD_CELL_INTERVAL = 0.2
 THRUST_NAME = "thrust"
 LOX_NAME = "LOX_level"
 
+# Metrics that get a 2-sample MAF (non-PT pressure channels etc.)
+MAF_METRICS = {
+    "pressure",
+    "pressurepsi",
+    "tankpressure",
+}
+
+# Metrics whose name contains any of these substrings get the 5-sample MAF.
+PT_MAF_SUBSTRINGS = {"pt"}
+PT_MAF_WINDOW = 5
+
+maf_prev: Dict[str, float] = {}
+pt_maf_buffers: Dict[str, deque] = {}
+
+
+def _is_pt_metric(name: str) -> bool:
+    low = name.lower()
+    return any(sub in low for sub in PT_MAF_SUBSTRINGS)
+
+
+def apply_2_sample_maf(name: str, value: float) -> float:
+    key = name.lower()
+
+    if key not in MAF_METRICS:
+        return value
+
+    prev = maf_prev.get(key)
+
+    if prev is None:
+        filtered = value
+    else:
+        filtered = 0.5 * (value + prev)
+
+    maf_prev[key] = value
+    return filtered
+
+
+def apply_pt_maf(name: str, value: float) -> float:
+    """5-sample moving average filter for PT channels."""
+    key = name.lower()
+
+    if key not in pt_maf_buffers:
+        pt_maf_buffers[key] = deque(maxlen=PT_MAF_WINDOW)
+
+    buf = pt_maf_buffers[key]
+    buf.append(value)
+    return sum(buf) / len(buf)
+
+
+def apply_filters(name: str, value: float) -> float:
+    """Apply the appropriate filter(s) for a given metric."""
+    if _is_pt_metric(name):
+        return apply_pt_maf(name, value)
+    return apply_2_sample_maf(name, value)
+
 
 def compute_calibration(raw0: float, raw10: float):
     if raw10 == raw0:
         raise ValueError("10 kg raw value cannot equal 0 kg raw value.")
     tare = float(raw0)
-    cal = 10.0 / (float(raw10) - float(raw0))
+    cal = 4.178 / (float(raw10) - float(raw0))
     return tare, cal
 
 
-# Enter your starting calibration raw values here.
-# These can later be changed live from the GUI for LOX_level.
 THRUST_RAW_0KG = 0.0
 THRUST_RAW_10KG = 1.0
 
 LOX_RAW_0KG = 0.0
 LOX_RAW_10KG = 1.0
+
+# LOX level calibration:
+# Tare = weight of empty vessel + hardware on the load cell (kg)
+# Full scale = tare + full propellant load (kg)
+# Output is percentage: 0% at tare, 100% at full scale.
+LOX_TARE_KG      = 4.178
+LOX_FULLSCALE_KG = 12.347
+
+
+def lox_kg_to_percent(kg: float) -> float:
+    return kg / LOX_FULLSCALE_KG * 100.0
 
 
 THRUST_TARE, THRUST_CAL = compute_calibration(
@@ -115,7 +180,7 @@ def start_lox_load_cell_thread(
                 if raw_val is not None:
                     gui.update_raw_lox_from_thread(raw_val)
 
-                    scaled_val = load_cell.raw_to_value(raw_val)
+                    scaled_val = lox_kg_to_percent(load_cell.raw_to_value(raw_val))
                     recorder.update_metric(LOX_NAME, scaled_val)
                     gui.apply_metric_from_thread(LOX_NAME, scaled_val)
             except Exception as e:
@@ -171,8 +236,10 @@ class TelemetryRecorderWide:
         self.path = path
         self.t0 = t0
         self.lock = threading.Lock()
-        self.columns = ["time"] + list(metric_names)
+
+        self.columns = ["time", "state"] + list(metric_names)
         self.latest: Dict[str, float] = {}
+        self.latest_state = ""
 
         self.f = open(self.path, "w", newline="", encoding="utf-8")
         self.w = csv.writer(self.f)
@@ -185,12 +252,16 @@ class TelemetryRecorderWide:
                 return
             self.latest[name] = value
 
+    def update_state(self, state: str):
+        with self.lock:
+            self.latest_state = state
+
     def snapshot(self):
         with self.lock:
             t_s = time.time() - self.t0
-            row = [f"{t_s:.3f}"]
+            row = [f"{t_s:.3f}", self.latest_state]
 
-            for name in self.columns[1:]:
+            for name in self.columns[2:]:
                 v = self.latest.get(name, None)
                 row.append("" if v is None else f"{v:.6g}")
 
@@ -251,10 +322,10 @@ def main():
     initial_lox_raw = lox_cell.read_raw(samples=5)
     if initial_lox_raw is not None:
         gui.update_raw_lox_from_thread(initial_lox_raw)
-        initial_lox_value = lox_cell.raw_to_value(initial_lox_raw)
+        initial_lox_value = lox_kg_to_percent(lox_cell.raw_to_value(initial_lox_raw))
         recorder.update_metric(LOX_NAME, initial_lox_value)
         gui.apply_metric_from_thread(LOX_NAME, initial_lox_value)
-        gui.log_from_thread(f"{LOX_NAME}: startup reading {initial_lox_value:.2f}")
+        gui.log_from_thread(f"{LOX_NAME}: startup reading {initial_lox_value:.2f}%")
     else:
         gui.log_from_thread(f"{LOX_NAME}: startup reading unavailable.")
 
@@ -274,11 +345,18 @@ def main():
     start_thrust_load_cell_thread(thrust_cell, gui, recorder)
     start_lox_load_cell_thread(lox_cell, gui, recorder)
 
+    def on_state(state: str):
+        gui.apply_state_from_thread(state)
+        recorder.update_state(state)
+
     def on_metric(name: str, value: float):
-        gui.apply_metric_from_thread(name, value)
+        filtered_value = apply_filters(name, value)
+
+        gui.apply_metric_from_thread(name, filtered_value)
+
         if gui.recording:
             try:
-                recorder.update_metric(name, value)
+                recorder.update_metric(name, filtered_value)
             except Exception as e:
                 gui.log_from_thread(f"Recorder error: {e}")
 
@@ -291,7 +369,7 @@ def main():
 
     comms = ArduinoComms(
         on_log=gui.log_from_thread,
-        on_state=gui.apply_state_from_thread,
+        on_state=on_state,
         on_metric=on_metric,
         on_message=gui.show_message_from_thread,
         on_prompt=gui.show_prompt_from_thread,
@@ -302,7 +380,7 @@ def main():
 
     gui.on_state_request = comms.request_state
     gui.on_prompt_answer = comms.send_answer
-    gui.start_telemetry_loop(comms, interval_ms=500, guard_ms=300)
+    gui.start_telemetry_loop(comms, interval_ms=100, guard_ms=80)
 
     def on_close():
         thrust_cell.cleanup()

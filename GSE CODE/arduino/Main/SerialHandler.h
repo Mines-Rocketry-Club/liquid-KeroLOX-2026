@@ -1,4 +1,3 @@
-// SerialHandler.ino
 #include <Arduino.h>
 
 void telemetry_beginConfig();
@@ -10,12 +9,14 @@ void forceAbort();
 void setStateOverride(const char *cmd);
 void broadcastState();
 void promptResendIfActive();
-void markPiGetReceived();   // added
+void markPiGetReceived();
 
 bool   g_answerReady = false;
 String g_answerText;
+bool   g_telemetryPending = false;  // deferred GET flag
 
-static bool g_inConfigMode = false;
+static bool   g_inConfigMode = false;
+static String g_serialBuf    = "";
 
 void sendMessage(const char *msg) {
   Serial.print("MSG ");
@@ -47,8 +48,8 @@ static void handleLine(const String& lineIn) {
   }
 
   if (line.equalsIgnoreCase("GET")) {
-    markPiGetReceived();   // added so GET refreshes the Pi watchdog timer
-    sendTelemetry();
+    markPiGetReceived();
+    g_telemetryPending = true;  // defer — service in loop() after steppers tick
     return;
   }
 
@@ -78,8 +79,13 @@ static void handleLine(const String& lineIn) {
 
 void processSerial() {
   while (Serial.available() > 0) {
-    String line = Serial.readStringUntil('\n');
-    line.replace("\r", "");
-    handleLine(line);
+    char c = (char)Serial.read();
+    if (c == '\n') {
+      g_serialBuf.replace("\r", "");
+      handleLine(g_serialBuf);
+      g_serialBuf = "";
+    } else {
+      g_serialBuf += c;
+    }
   }
 }
