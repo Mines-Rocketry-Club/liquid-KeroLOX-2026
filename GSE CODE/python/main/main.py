@@ -10,7 +10,11 @@ from gui import Dashboard
 from comms import ArduinoComms
 from hx711_reader import PiLoadCell
 
-PAD_IP = "192.168.88.254"
+#PAD_IP = "192.168.88.254"
+#PAD_IP = "192.168.88.251" #Rohan's
+PAD_IP = "192.168.88.252" #Alex's
+#PAD_IP = "192.168.88.253" #Reiley's
+
 CHECK_INTERVAL = 0.5
 LOAD_CELL_INTERVAL = 0.2
 
