@@ -1,19 +1,15 @@
 import csv
+import json
 import threading
 import time
 import subprocess
 from collections import deque
 from pathlib import Path
-from typing import Dict, List
+from typing import Callable, Dict, List
 
 from gui import Dashboard
 from comms import ArduinoComms
 from hx711_reader import PiLoadCell
-
-#PAD_IP = "192.168.88.254"
-#PAD_IP = "192.168.88.251" #Rohan's
-PAD_IP = "192.168.88.252" #Alex's
-#PAD_IP = "192.168.88.253" #Reiley's
 
 CHECK_INTERVAL = 0.5
 LOAD_CELL_INTERVAL = 0.2
@@ -85,6 +81,34 @@ def compute_calibration(raw0: float, raw10: float):
     return tare, cal
 
 
+def load_heartbeat_ip_config(path: Path):
+    with path.open(encoding="utf-8") as config_file:
+        config = json.load(config_file)
+
+    ips = config.get("ips") if isinstance(config, dict) else None
+    default_ip = config.get("default") if isinstance(config, dict) else None
+    if (
+        not isinstance(ips, list)
+        or not ips
+        or any(
+            not isinstance(entry, dict)
+            or not isinstance(entry.get("name"), str)
+            or not entry["name"].strip()
+            or not isinstance(entry.get("ip"), str)
+            or not entry["ip"].strip()
+            for entry in ips
+        )
+    ):
+        raise ValueError(f"Invalid or missing 'ips' list in {path}")
+    heartbeat_ips = [(entry["name"].strip(), entry["ip"].strip()) for entry in ips]
+    if not isinstance(default_ip, str) or default_ip not in {
+        ip for _, ip in heartbeat_ips
+    }:
+        raise ValueError(f"Default heartbeat IP must be listed in {path}")
+
+    return heartbeat_ips, default_ip
+
+
 THRUST_RAW_0KG = 0.0
 THRUST_RAW_10KG = 1.0
 
@@ -126,20 +150,35 @@ def check_ip_exists(ip: str) -> bool:
         return False
 
 
-def start_network_thread(comms: ArduinoComms, gui: Dashboard):
+def start_network_thread(
+    comms: ArduinoComms,
+    gui: Dashboard,
+    get_heartbeat_ip: Callable[[], str],
+):
     def run():
         last = None
+        last_ip = None
         while True:
-            ok = check_ip_exists(PAD_IP)
+            ip = get_heartbeat_ip()
+            if ip != last_ip:
+                last = None
+                last_ip = ip
+
+            ok = check_ip_exists(ip)
             comms.net_ok = ok
+            gui.update_heartbeat_status_from_thread(ip, ok)
 
             if last is None:
                 last = ok
             else:
                 if ok and not last:
-                    gui.log_from_thread("Laptop detected (.254). Telemetry enabled.")
+                    gui.log_from_thread(
+                        f"Heartbeat detected ({ip}). Telemetry enabled."
+                    )
                 elif not ok and last:
-                    gui.log_from_thread("Laptop missing (.254). Telemetry paused.")
+                    gui.log_from_thread(
+                        f"Heartbeat missing ({ip}). Telemetry paused."
+                    )
                 last = ok
 
             time.sleep(CHECK_INTERVAL)
@@ -282,7 +321,25 @@ class TelemetryRecorderWide:
 def main():
     program_start = time.time()
 
-    gui = Dashboard()
+    heartbeat_ips, default_heartbeat_ip = load_heartbeat_ip_config(
+        Path(__file__).with_name("ip_config.json")
+    )
+    gui = Dashboard(
+        heartbeat_ips=heartbeat_ips,
+        default_heartbeat_ip=default_heartbeat_ip,
+    )
+    heartbeat_ip_lock = threading.Lock()
+    selected_heartbeat_ip = {"value": default_heartbeat_ip}
+
+    def set_heartbeat_ip(ip: str):
+        with heartbeat_ip_lock:
+            selected_heartbeat_ip["value"] = ip
+
+    def get_heartbeat_ip() -> str:
+        with heartbeat_ip_lock:
+            return selected_heartbeat_ip["value"]
+
+    gui.on_heartbeat_ip_change = set_heartbeat_ip
     metric_names = load_metric_names_from_csv("telemetryFile.csv")
 
     recording_path = next_recording_path(
@@ -380,7 +437,7 @@ def main():
         on_snapshot=on_snapshot,
     )
 
-    start_network_thread(comms, gui)
+    start_network_thread(comms, gui, get_heartbeat_ip)
 
     gui.on_state_request = comms.request_state
     gui.on_prompt_answer = comms.send_answer

@@ -2,13 +2,19 @@ import csv
 import time
 import tkinter as tk
 from tkinter import ttk
+from typing import Sequence, Tuple
 
 BG_COLOR = "#A9A9A9"
 DEFAULT_STATE_COLOR = "#D3D3D3"
 
 
 class Dashboard(tk.Tk):
-    def __init__(self, telemetry_csv: str = "telemetryFile.csv"):
+    def __init__(
+        self,
+        telemetry_csv: str = "telemetryFile.csv",
+        heartbeat_ips: Sequence[Tuple[str, str]] = (),
+        default_heartbeat_ip: str = "",
+    ):
         super().__init__()
         self.title("System Dashboard")
         self.geometry("920x560")
@@ -42,11 +48,25 @@ class Dashboard(tk.Tk):
         self.on_state_request = None
         self.on_prompt_answer = None
         self.on_apply_lox_calibration = None
+        self.on_heartbeat_ip_change = None
         self.pending_prompt_id = None
 
         self.state_label = None
         self.telemetry_freq_label = None
         self.ping_label = None
+        self.heartbeat_ip_labels = {
+            f"{name} ({ip})": ip for name, ip in heartbeat_ips
+        }
+        selected_label = next(
+            (
+                label
+                for label, ip in self.heartbeat_ip_labels.items()
+                if ip == default_heartbeat_ip
+            ),
+            "",
+        )
+        self.heartbeat_ip_var = tk.StringVar(value=selected_label)
+        self.heartbeat_status_label = None
         self.tree = None
         self.cmd = None
         self.log = None
@@ -200,7 +220,28 @@ class Dashboard(tk.Tk):
         self.ping_label = tk.Label(
             left_status, text="Ping: -- ms", bg=BG_COLOR, fg="black"
         )
-        self.ping_label.pack(side="left", padx=20)
+        self.ping_label.pack(side="left", padx=(20, 6))
+
+        self.heartbeat_ip_selector = ttk.Combobox(
+            left_status,
+            textvariable=self.heartbeat_ip_var,
+            values=tuple(self.heartbeat_ip_labels),
+            state="readonly",
+            width=18,
+        )
+        self.heartbeat_ip_selector.pack(side="left")
+        self.heartbeat_ip_selector.bind(
+            "<<ComboboxSelected>>", self._heartbeat_ip_selected
+        )
+
+        self.heartbeat_status_label = tk.Label(
+            left_status,
+            text="● Checking",
+            bg=BG_COLOR,
+            fg="#9A7600",
+            font=("Arial", 10, "bold"),
+        )
+        self.heartbeat_status_label.pack(side="left", padx=8)
 
         right_cal = ttk.Frame(tele_frame)
         right_cal.pack(side="right", anchor="e")
@@ -489,6 +530,30 @@ class Dashboard(tk.Tk):
             self.ping_label.config(text="Ping: -- ms")
         else:
             self.ping_label.config(text=f"Ping: {ping:.0f} ms")
+
+    def _heartbeat_ip_selected(self, event=None):
+        label = self.heartbeat_ip_var.get()
+        ip = self.heartbeat_ip_labels.get(label)
+        if ip is None:
+            return
+        self._set_heartbeat_status("● Checking", "#9A7600")
+        if self.on_heartbeat_ip_change:
+            self.on_heartbeat_ip_change(ip)
+
+    def update_heartbeat_status_from_thread(self, ip: str, detected: bool):
+        self.after(0, lambda: self._apply_heartbeat_status(ip, detected))
+
+    def _apply_heartbeat_status(self, ip: str, detected: bool):
+        if self.heartbeat_ip_labels.get(self.heartbeat_ip_var.get()) != ip:
+            return
+
+        if detected:
+            self._set_heartbeat_status("● Connected", "#187A2F")
+        else:
+            self._set_heartbeat_status("● No signal", "#C62828")
+
+    def _set_heartbeat_status(self, text: str, color: str):
+        self.heartbeat_status_label.config(text=text, fg=color)
 
     def _log(self, msg: str):
         self.log.configure(state="normal")
